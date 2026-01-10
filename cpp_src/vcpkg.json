@@ -1,0 +1,8 @@
+{
+    "name": "satellite-gpu",
+    "version-string": "0.1.0",
+    "description": "GPU worker pool for Satellite SAT solver",
+    "dependencies": [
+        "gtest"
+    ]
+}

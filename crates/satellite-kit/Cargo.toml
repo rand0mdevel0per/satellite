@@ -1,0 +1,22 @@
+[package]
+name = "satellite-kit"
+description = "Core solver library and API for Satellite"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+satellite-base = { workspace = true }
+satellite-format = { workspace = true }
+satellite-lockfree = { workspace = true }
+satellite-cdcl = { workspace = true }
+satellite-branch = { workspace = true }
+satellite-jit = { workspace = true }
+satellite-worker = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

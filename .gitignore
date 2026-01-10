@@ -1,0 +1,29 @@
+# Build artifacts
+/target/
+/cpp_src/build/
+
+# IDE
+/crates/satellite-ide/frontend/node_modules/
+/crates/satellite-ide/frontend/dist/
+
+# Python
+/py_src/**/target/
+/py_src/**/*.egg-info/
+/py_src/**/__pycache__/
+/py_src/**/.venv/
+*.pyd
+*.so
+
+# IDE/Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+.env

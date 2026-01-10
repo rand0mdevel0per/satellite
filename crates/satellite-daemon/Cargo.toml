@@ -1,0 +1,25 @@
+[package]
+name = "satellite-daemon"
+description = "Distributed solving server for Satellite"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "satellite-daemon"
+path = "src/main.rs"
+
+[dependencies]
+satellite-kit = { workspace = true }
+satellite-protocol = { workspace = true }
+satellite-format = { workspace = true }
+tokio = { workspace = true }
+tokio-tungstenite = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+futures-util = "0.3"

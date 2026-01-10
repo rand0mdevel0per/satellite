@@ -1,0 +1,80 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "crates/satellite-base",
+    "crates/satellite-format",
+    "crates/satellite-protocol",
+    "crates/satellite-lockfree",
+    "crates/satellite-cdcl",
+    "crates/satellite-branch",
+    "crates/satellite-jit",
+    "crates/satellite-worker",
+    "crates/satellite-kit",
+    "crates/satellite-cli",
+    "crates/satellite-daemon",
+    # "crates/satellite-ide",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/rand0mdevel0per/satellite"
+rust-version = "1.85"
+
+[workspace.dependencies]
+# Internal crates
+satellite-base = { path = "crates/satellite-base" }
+satellite-format = { path = "crates/satellite-format" }
+satellite-protocol = { path = "crates/satellite-protocol" }
+satellite-lockfree = { path = "crates/satellite-lockfree" }
+satellite-cdcl = { path = "crates/satellite-cdcl" }
+satellite-branch = { path = "crates/satellite-branch" }
+satellite-jit = { path = "crates/satellite-jit" }
+satellite-worker = { path = "crates/satellite-worker" }
+satellite-kit = { path = "crates/satellite-kit" }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rkyv = { version = "0.8", features = ["bytecheck"] }
+
+# Async
+tokio = { version = "1.0", features = ["full"] }
+async-trait = "0.1"
+
+# Error handling
+thiserror = "2.0"
+anyhow = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# JIT compilation (LLVM)
+inkwell = { version = "0.7.1", features = ["llvm21-1"] }
+
+# CLI
+clap = { version = "4.0", features = ["derive"] }
+
+# WebSocket (daemon)
+tokio-tungstenite = "0.26"
+
+# FFI
+libloading = "0.8"
+
+# Tauri (IDE)
+tauri = { version = "2.0", features = [] }
+tauri-build = { version = "2.0", features = [] }
+
+# Testing
+criterion = "0.5"
+proptest = "1.0"
+
+[workspace.lints.rust]
+unsafe_code = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"

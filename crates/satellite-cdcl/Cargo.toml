@@ -1,0 +1,18 @@
+[package]
+name = "satellite-cdcl"
+description = "CDCL core algorithm for Satellite"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+satellite-base = { workspace = true }
+satellite-format = { workspace = true }
+satellite-lockfree = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

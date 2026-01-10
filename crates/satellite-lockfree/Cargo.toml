@@ -1,0 +1,19 @@
+[package]
+name = "satellite-lockfree"
+description = "Lock-free data structures for Satellite"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+satellite-base = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+proptest = { workspace = true }
+
+[[bench]]
+name = "mpmc_bench"
+harness = false

@@ -1,0 +1,17 @@
+[package]
+name = "satellite-jit"
+description = "LLVM JIT compilation for ABI-OP constraints"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+satellite-base = { workspace = true }
+inkwell = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

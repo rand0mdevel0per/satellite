@@ -1,0 +1,27 @@
+[package]
+name = "satellite-ide"
+description = "Modern IDE for Satellite with LSP and debugger"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "satellite_ide"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { workspace = true, features = [] }
+
+[dependencies]
+satellite-kit = { workspace = true }
+satellite-format = { workspace = true }
+tauri = { workspace = true, features = [] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

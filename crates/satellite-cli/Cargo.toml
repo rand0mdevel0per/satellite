@@ -1,0 +1,24 @@
+[package]
+name = "satellite-cli"
+description = "Command-line interface for Satellite SAT solver"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "satellite"
+path = "src/main.rs"
+
+[dependencies]
+satellite-kit = { workspace = true }
+satellite-format = { workspace = true }
+satellite-protocol = { workspace = true }
+clap = { workspace = true }
+tokio = { workspace = true }
+tokio-tungstenite = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+serde_json = { workspace = true }

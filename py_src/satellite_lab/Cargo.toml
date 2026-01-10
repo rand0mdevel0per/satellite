@@ -1,0 +1,19 @@
+[package]
+name = "satellite-lab"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[lib]
+name = "_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.23", features = ["extension-module"] }
+numpy = "0.23"
+
+# Path to satellite-kit in the main workspace
+# Note: When building with maturin, you may need to adjust this
+satellite-kit = { path = "../../crates/satellite-kit" }
+satellite-base = { path = "../../crates/satellite-base" }
+satellite-format = { path = "../../crates/satellite-format" }

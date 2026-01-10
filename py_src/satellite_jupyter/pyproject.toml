@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "satellite-jupyter"
+version = "0.1.0"
+description = "Jupyter kernel for Satellite SAT solver"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Jupyter",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "satellite-lab",
+    "jupyter-client>=7.0",
+    "ipykernel>=6.0",
+    "tqdm>=4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "jupyter",
+]
+
+[project.scripts]
+satellite-jupyter-install = "satellite_jupyter.install:main"
+
+[tool.setuptools.packages.find]
+where = ["."]

@@ -1,0 +1,15 @@
+[package]
+name = "satellite-base"
+description = "Core types and utilities for Satellite SAT solver"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
