@@ -1,7 +1,7 @@
 //! Reference counting for branch lifecycle.
 
-use std::sync::atomic::{AtomicU32, Ordering};
 use super::branch::{Branch, BranchId, BranchStatus};
+use std::sync::atomic::{AtomicU32, Ordering};
 
 /// Callback for branch events.
 pub trait BranchCallback: Send + Sync {
@@ -34,7 +34,8 @@ impl<C: BranchCallback> RefCountHandler<C> {
             parent.set_status(BranchStatus::Failed);
 
             // Notify callback to check grandparent
-            self.callback.on_branch_failed(parent.id(), parent.parent_id());
+            self.callback
+                .on_branch_failed(parent.id(), parent.parent_id());
         }
     }
 

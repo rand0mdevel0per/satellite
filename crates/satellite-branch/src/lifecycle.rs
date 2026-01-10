@@ -1,8 +1,8 @@
 //! Branch lifecycle management.
 
-use std::sync::atomic::{AtomicU64, Ordering};
-use satellite_lockfree::ConcurrentSkiplist;
 use super::branch::{Branch, BranchId, BranchStatus};
+use satellite_lockfree::ConcurrentSkiplist;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 /// Manages the lifecycle of all branches.
 pub struct BranchManager {

@@ -1,11 +1,11 @@
 //! WebSocket server for distributed solving.
 
-use tokio::net::TcpListener;
-use tokio_tungstenite::accept_async;
-use futures_util::{StreamExt, SinkExt};
-use satellite_protocol::{ClientMessage, ServerMessage, ProtocolCodec};
+use futures_util::{SinkExt, StreamExt};
+use satellite_protocol::{ClientMessage, ProtocolCodec, ServerMessage};
 use std::sync::Arc;
+use tokio::net::TcpListener;
 use tokio::sync::RwLock;
+use tokio_tungstenite::accept_async;
 
 use crate::scheduler::Scheduler;
 
@@ -57,7 +57,9 @@ async fn handle_connection(
                     let response = handle_message(client_msg, &state).await;
                     let response_bytes = ProtocolCodec::encode_server(&response)?;
                     write
-                        .send(tokio_tungstenite::tungstenite::Message::Binary(response_bytes.into()))
+                        .send(tokio_tungstenite::tungstenite::Message::Binary(
+                            response_bytes.into(),
+                        ))
                         .await?;
                 }
                 Err(e) => {
@@ -70,10 +72,7 @@ async fn handle_connection(
     Ok(())
 }
 
-async fn handle_message(
-    msg: ClientMessage,
-    state: &Arc<RwLock<ServerState>>,
-) -> ServerMessage {
+async fn handle_message(msg: ClientMessage, state: &Arc<RwLock<ServerState>>) -> ServerMessage {
     match msg {
         ClientMessage::Ping => ServerMessage::Pong,
         ClientMessage::SubmitJob(req) => {

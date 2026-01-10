@@ -1,10 +1,10 @@
 //! Job scheduler for the daemon.
 
-use satellite_protocol::{
-    JobId, JobState, JobStatus, ProgressStats, SubmitJobRequest,
-    AddConstraintsRequest, SnapshotData,
-};
 use satellite_kit::Result;
+use satellite_protocol::{
+    AddConstraintsRequest, JobId, JobState, JobStatus, ProgressStats, SnapshotData,
+    SubmitJobRequest,
+};
 use std::collections::HashMap;
 use std::sync::atomic::{AtomicU64, Ordering};
 
@@ -84,9 +84,10 @@ impl Scheduler {
     /// Adds constraints to an existing job.
     pub fn add_constraints(&mut self, req: AddConstraintsRequest) -> Result<()> {
         if !self.jobs.contains_key(&req.job_id) {
-            return Err(satellite_kit::Error::Internal(
-                format!("Job {} not found", req.job_id),
-            ));
+            return Err(satellite_kit::Error::Internal(format!(
+                "Job {} not found",
+                req.job_id
+            )));
         }
 
         // TODO: Actually add constraints to the running solver

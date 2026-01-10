@@ -12,7 +12,9 @@ impl XorShift64 {
     /// Creates a new PRNG with the given seed.
     #[must_use]
     pub const fn new(seed: u64) -> Self {
-        Self { state: if seed == 0 { 1 } else { seed } }
+        Self {
+            state: if seed == 0 { 1 } else { seed },
+        }
     }
 
     /// Generates the next random u64.

@@ -1,10 +1,10 @@
 //! Solve command.
 
 use clap::Args;
-use satellite_kit::Solver;
 use satellite_format::{AdvancedCnf, DimacsCnf};
-use std::path::PathBuf;
+use satellite_kit::Solver;
 use std::fs;
+use std::path::PathBuf;
 use std::time::Instant;
 
 #[derive(Args)]
@@ -52,12 +52,14 @@ pub fn run(args: SolveArgs) -> anyhow::Result<()> {
     let problem = match format {
         "dimacs" | "cnf" => {
             let dimacs = DimacsCnf::from_str(&content)?;
-            tracing::info!("Loaded DIMACS: {} vars, {} clauses", dimacs.num_vars, dimacs.clauses.len());
+            tracing::info!(
+                "Loaded DIMACS: {} vars, {} clauses",
+                dimacs.num_vars,
+                dimacs.clauses.len()
+            );
             dimacs.to_advanced_cnf()
         }
-        "json" | "advanced-cnf" => {
-            AdvancedCnf::from_json(&content)?
-        }
+        "json" | "advanced-cnf" => AdvancedCnf::from_json(&content)?,
         _ => {
             anyhow::bail!("Unknown format: {}", format);
         }

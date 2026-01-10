@@ -25,15 +25,15 @@
 //! }
 //! ```
 
-pub mod solver;
 pub mod constraint;
 pub mod result;
+pub mod solver;
 
 // Re-export core types
-pub use satellite_base::types::{BoolVar, Batch, IntVar, VecVar, FloatVar};
+pub use satellite_base::types::{Batch, BoolVar, FloatVar, IntVar, VecVar};
 pub use satellite_base::{Error, Result};
 pub use satellite_cdcl::SatResult;
 
-pub use solver::Solver;
 pub use constraint::Constraint;
 pub use result::Model;
+pub use solver::Solver;

@@ -2,8 +2,8 @@
 
 use satellite_format::Snapshot;
 use satellite_kit::Result;
-use std::path::{Path, PathBuf};
 use std::fs;
+use std::path::{Path, PathBuf};
 
 /// Checkpoint manager for long-running solves.
 pub struct CheckpointManager {
@@ -19,8 +19,11 @@ impl CheckpointManager {
 
     /// Saves a checkpoint.
     pub fn save(&self, job_id: u64, snapshot: &Snapshot) -> Result<PathBuf> {
-        let path = self.checkpoint_dir.join(format!("job_{}.checkpoint", job_id));
-        let json = snapshot.to_json()
+        let path = self
+            .checkpoint_dir
+            .join(format!("job_{}.checkpoint", job_id));
+        let json = snapshot
+            .to_json()
             .map_err(|e| satellite_kit::Error::Serialization(e.to_string()))?;
         fs::write(&path, json)?;
         Ok(path)
@@ -28,7 +31,9 @@ impl CheckpointManager {
 
     /// Loads a checkpoint.
     pub fn load(&self, job_id: u64) -> Result<Option<Snapshot>> {
-        let path = self.checkpoint_dir.join(format!("job_{}.checkpoint", job_id));
+        let path = self
+            .checkpoint_dir
+            .join(format!("job_{}.checkpoint", job_id));
         if !path.exists() {
             return Ok(None);
         }
@@ -61,7 +66,9 @@ impl CheckpointManager {
 
     /// Deletes a checkpoint.
     pub fn delete(&self, job_id: u64) -> Result<()> {
-        let path = self.checkpoint_dir.join(format!("job_{}.checkpoint", job_id));
+        let path = self
+            .checkpoint_dir
+            .join(format!("job_{}.checkpoint", job_id));
         if path.exists() {
             fs::remove_file(path)?;
         }

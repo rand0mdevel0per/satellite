@@ -2,9 +2,9 @@
 //!
 //! Provides O(log n) concurrent insert and lookup.
 
-use std::sync::atomic::{AtomicPtr, AtomicUsize, Ordering};
-use std::ptr;
 use std::cmp::Ordering as CmpOrdering;
+use std::ptr;
+use std::sync::atomic::{AtomicPtr, AtomicUsize, Ordering};
 
 /// Maximum height of the skiplist.
 const MAX_HEIGHT: usize = 16;
@@ -20,7 +20,12 @@ struct SkipNode<K, V> {
 impl<K, V> SkipNode<K, V> {
     fn new(key: K, value: V, height: usize) -> *mut Self {
         let mut next = std::array::from_fn(|_| AtomicPtr::new(ptr::null_mut()));
-        Box::into_raw(Box::new(Self { key, value, height, next }))
+        Box::into_raw(Box::new(Self {
+            key,
+            value,
+            height,
+            next,
+        }))
     }
 }
 

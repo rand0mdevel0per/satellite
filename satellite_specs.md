@@ -314,10 +314,12 @@ bool all_satisfied = __all_sync(0xffffffff, results[threadIdx.x]);
   - GPU → CPU: Enqueue to CPU-specific queue
   - CPU processes and enqueues callback job to GPU
 
-#### Work Stealing (Warp-Level)
-- **Single-Threaded Jobs**: Some jobs only need 1 thread (e.g., simple checks)
-- **Idle Lanes**: Remaining 31 threads can steal lightweight jobs from MPMC
-- **Warp Synchronization**: Careful to avoid divergence; stealing only for homogeneous jobs
+#### Work Stealing (Intra-Warp)
+- **Scenario A (Small Job)**: Warp executed a job, but some threads are idle (e.g. fewer than 32 clauses).
+- **Scenario B (Complex Closure)**: One thread is stuck on a complex closure; others finish early and become idle.
+- **Stealing**: Idle threads (lanes) pop a new Job B, steal a single unit (1 thread-closure), and execute it.
+- **Granularity**: Single unit (e.g. 1 clause check or 1 closure).
+- **Goal**: Maximize SIMT utilization even with heterogeneous workload costs.
 
 ---
 

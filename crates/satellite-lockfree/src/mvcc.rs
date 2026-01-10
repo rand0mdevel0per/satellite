@@ -2,8 +2,8 @@
 //!
 //! Reduces contention on frequently updated data like VSIDS scores.
 
-use std::sync::atomic::{AtomicPtr, AtomicU64, Ordering};
 use std::ptr;
+use std::sync::atomic::{AtomicPtr, AtomicU64, Ordering};
 
 /// A version in the MVCC chain.
 struct Version<T> {

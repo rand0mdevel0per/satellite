@@ -1,7 +1,7 @@
 //! Lock-free growable vector for clause storage.
 
-use std::sync::atomic::{AtomicPtr, AtomicUsize, Ordering};
 use std::ptr;
+use std::sync::atomic::{AtomicPtr, AtomicUsize, Ordering};
 
 /// Chunk size for allocation (number of elements per chunk).
 const CHUNK_SIZE: usize = 1024;

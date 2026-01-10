@@ -75,7 +75,9 @@ impl TruthTable {
     /// Deserializes from bytes.
     pub fn from_bytes(bytes: &[u8]) -> Result<Self> {
         if bytes.len() < 16 {
-            return Err(satellite_base::Error::Serialization("Invalid truth table".to_string()));
+            return Err(satellite_base::Error::Serialization(
+                "Invalid truth table".to_string(),
+            ));
         }
 
         let input_bits = u64::from_le_bytes(bytes[0..8].try_into().unwrap()) as usize;
@@ -90,7 +92,11 @@ impl TruthTable {
             data.push(val);
         }
 
-        Ok(Self { input_bits, output_bits, data })
+        Ok(Self {
+            input_bits,
+            output_bits,
+            data,
+        })
     }
 }
 

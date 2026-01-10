@@ -1,7 +1,7 @@
 //! Batch type - a bus-like collection of booleans.
 
+use super::{BoolVar, VarId};
 use serde::{Deserialize, Serialize};
-use super::{VarId, BoolVar};
 
 /// A batch of boolean variables, similar to Verilog vectors.
 ///
@@ -39,7 +39,11 @@ impl Batch {
     /// Panics if `index >= dim`.
     #[must_use]
     pub fn get(&self, index: usize) -> BoolVar {
-        assert!(index < self.dim, "Index {index} out of bounds for batch of dim {}", self.dim);
+        assert!(
+            index < self.dim,
+            "Index {index} out of bounds for batch of dim {}",
+            self.dim
+        );
         BoolVar::new(self.base_id + index as VarId)
     }
 

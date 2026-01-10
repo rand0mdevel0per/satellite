@@ -16,4 +16,4 @@ pub mod types;
 pub mod utils;
 
 pub use error::{Error, Result};
-pub use types::{BoolVar, Batch, IntVar, VecVar, FloatVar};
+pub use types::{Batch, BoolVar, FloatVar, IntVar, VecVar};

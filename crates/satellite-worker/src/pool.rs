@@ -1,13 +1,13 @@
 //! CPU worker thread pool.
 
-use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::thread::{self, JoinHandle};
 
-use satellite_lockfree::{MpmcQueue, Priority};
-use satellite_branch::BranchId;
-use crate::job::{Job, JobResult};
 use crate::gpu_bridge::GpuBridge;
+use crate::job::{Job, JobResult};
+use satellite_branch::BranchId;
+use satellite_lockfree::{MpmcQueue, Priority};
 
 /// Configuration for the worker pool.
 #[derive(Debug, Clone)]

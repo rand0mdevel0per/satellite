@@ -1,7 +1,7 @@
 //! Arbitrary-precision floating point.
 
-use serde::{Deserialize, Serialize};
 use super::{VarId, VecVar};
+use serde::{Deserialize, Serialize};
 
 /// An arbitrary-precision floating point variable.
 ///

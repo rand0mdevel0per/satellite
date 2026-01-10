@@ -2,8 +2,8 @@
 //!
 //! The native format for Satellite, supporting typed variables and ABI constraints.
 
-use serde::{Deserialize, Serialize};
 use satellite_base::types::VarType;
+use serde::{Deserialize, Serialize};
 
 /// A variable definition in Advanced-CNF.
 #[derive(Debug, Clone, Serialize, Deserialize)]

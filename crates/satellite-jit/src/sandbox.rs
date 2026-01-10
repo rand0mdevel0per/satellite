@@ -17,7 +17,7 @@ impl Default for SandboxConfig {
     fn default() -> Self {
         Self {
             memory_limit: 1024 * 1024 * 1024, // 1GB
-            time_limit_ms: 60000,              // 60 seconds
+            time_limit_ms: 60000,             // 60 seconds
             allowed_paths: Vec::new(),
         }
     }

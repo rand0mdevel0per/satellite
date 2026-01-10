@@ -64,7 +64,11 @@ pub enum JobResultKind {
     /// BCP found a conflict.
     BcpConflict { clause_id: usize },
     /// Heuristic score computed.
-    HeuristicScore { heuristic: Heuristic, var: u64, score: f64 },
+    HeuristicScore {
+        heuristic: Heuristic,
+        var: u64,
+        score: f64,
+    },
     /// Aggregation complete.
     AggregationComplete { all_satisfied: bool },
     /// Learned clause from conflict analysis.
@@ -146,7 +150,9 @@ impl Job {
             },
             JobKind::BcpAggregation => JobResult {
                 branch_id: self.branch_id,
-                kind: JobResultKind::AggregationComplete { all_satisfied: true },
+                kind: JobResultKind::AggregationComplete {
+                    all_satisfied: true,
+                },
             },
             JobKind::Shutdown => JobResult {
                 branch_id: 0,

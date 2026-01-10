@@ -1,7 +1,7 @@
 //! Protocol codec for framing and serialization.
 
-use satellite_base::{Error, Result};
 use crate::messages::{ClientMessage, ServerMessage};
+use satellite_base::{Error, Result};
 
 /// Codec for encoding/decoding protocol messages.
 pub struct ProtocolCodec;

@@ -7,17 +7,17 @@
 //! - `vec[batch[dim1], dim2]` → Vector of batches
 //! - `float` → Arbitrary-precision float
 
-mod bool_var;
 mod batch;
+mod bool_var;
+mod float_var;
 mod int_var;
 mod vec_var;
-mod float_var;
 
-pub use bool_var::BoolVar;
 pub use batch::Batch;
+pub use bool_var::BoolVar;
+pub use float_var::FloatVar;
 pub use int_var::IntVar;
 pub use vec_var::VecVar;
-pub use float_var::FloatVar;
 
 use serde::{Deserialize, Serialize};
 
@@ -46,7 +46,10 @@ impl VarType {
         match self {
             Self::Bool => 1,
             Self::Batch { dim } | Self::Int { bits: dim } => *dim,
-            Self::Vec { inner_dim, outer_dim } => inner_dim * outer_dim,
+            Self::Vec {
+                inner_dim,
+                outer_dim,
+            } => inner_dim * outer_dim,
             Self::Float { precision } => *precision,
         }
     }

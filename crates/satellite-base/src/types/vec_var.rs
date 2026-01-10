@@ -1,7 +1,7 @@
 //! Vector of batches.
 
+use super::{Batch, VarId};
 use serde::{Deserialize, Serialize};
-use super::{VarId, Batch};
 
 /// A vector of batches, enabling 2D boolean arrays.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -18,7 +18,11 @@ impl VecVar {
     /// Creates a new vector of batches.
     #[must_use]
     pub const fn new(base_id: VarId, inner_dim: usize, outer_dim: usize) -> Self {
-        Self { base_id, inner_dim, outer_dim }
+        Self {
+            base_id,
+            inner_dim,
+            outer_dim,
+        }
     }
 
     /// Returns the inner batch dimension.
@@ -45,7 +49,11 @@ impl VecVar {
     /// Panics if `index >= outer_dim`.
     #[must_use]
     pub fn get(&self, index: usize) -> Batch {
-        assert!(index < self.outer_dim, "Index {index} out of bounds for vec of dim {}", self.outer_dim);
+        assert!(
+            index < self.outer_dim,
+            "Index {index} out of bounds for vec of dim {}",
+            self.outer_dim
+        );
         let offset = (index * self.inner_dim) as VarId;
         Batch::new(self.base_id + offset, self.inner_dim)
     }

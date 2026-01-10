@@ -1,12 +1,12 @@
 //! High-level solver API.
 
-use satellite_base::types::{VarId, VarType, BoolVar, Batch, IntVar, VecVar, FloatVar};
-use satellite_base::Result;
-use satellite_cdcl::{CdclSolver, CdclConfig, SatResult};
-use satellite_format::AdvancedCnf;
-use satellite_worker::{WorkerPool, WorkerPoolConfig};
 use crate::constraint::Constraint;
 use crate::result::Model;
+use satellite_base::Result;
+use satellite_base::types::{Batch, BoolVar, FloatVar, IntVar, VarId, VarType, VecVar};
+use satellite_cdcl::{CdclConfig, CdclSolver, SatResult};
+use satellite_format::AdvancedCnf;
+use satellite_worker::{WorkerPool, WorkerPoolConfig};
 
 /// Solver configuration.
 #[derive(Debug, Clone)]
@@ -99,7 +99,13 @@ impl Solver {
 
     /// Creates a new vector variable.
     pub fn vec_var(&mut self, inner_dim: usize, outer_dim: usize) -> VecVar {
-        let id = self.alloc_var(VarType::Vec { inner_dim, outer_dim }, None);
+        let id = self.alloc_var(
+            VarType::Vec {
+                inner_dim,
+                outer_dim,
+            },
+            None,
+        );
         let total = inner_dim * outer_dim;
         for _ in 1..total {
             self.next_var_id += 1;
@@ -144,7 +150,7 @@ impl Solver {
     }
 
     fn build_problem(&self) -> AdvancedCnf {
-        use satellite_format::advanced_cnf::{VariableDef, Clause, ClauseType};
+        use satellite_format::advanced_cnf::{Clause, ClauseType, VariableDef};
 
         let variables: Vec<VariableDef> = self
             .variables

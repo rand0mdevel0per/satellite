@@ -1,7 +1,7 @@
 //! Single boolean variable.
 
-use serde::{Deserialize, Serialize};
 use super::VarId;
+use serde::{Deserialize, Serialize};
 
 /// A single boolean variable in the solver.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -26,13 +26,19 @@ impl BoolVar {
     /// Creates a negated literal.
     #[must_use]
     pub const fn not(&self) -> Literal {
-        Literal { var: *self, negated: true }
+        Literal {
+            var: *self,
+            negated: true,
+        }
     }
 
     /// Creates a positive literal.
     #[must_use]
     pub const fn pos(&self) -> Literal {
-        Literal { var: *self, negated: false }
+        Literal {
+            var: *self,
+            negated: false,
+        }
     }
 }
 
@@ -67,7 +73,10 @@ impl std::ops::Not for BoolVar {
     type Output = Literal;
 
     fn not(self) -> Self::Output {
-        Literal { var: self, negated: true }
+        Literal {
+            var: self,
+            negated: true,
+        }
     }
 }
 

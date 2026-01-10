@@ -8,8 +8,8 @@
 //! - Result retrieval
 //! - Checkpoint/restore operations
 
-pub mod messages;
 pub mod codec;
+pub mod messages;
 
-pub use messages::*;
 pub use codec::ProtocolCodec;
+pub use messages::*;

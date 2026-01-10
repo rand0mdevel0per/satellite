@@ -142,7 +142,8 @@ impl Branch {
 
     /// Sets the confidence score.
     pub fn set_confidence(&self, confidence: f64) {
-        self.confidence.store(confidence.to_bits(), Ordering::Relaxed);
+        self.confidence
+            .store(confidence.to_bits(), Ordering::Relaxed);
     }
 }
 

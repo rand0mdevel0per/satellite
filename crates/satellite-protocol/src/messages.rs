@@ -128,10 +128,7 @@ pub enum JobResult {
     /// Unsatisfiable.
     Unsat { job_id: JobId },
     /// Unknown (timeout or resource limit).
-    Unknown {
-        job_id: JobId,
-        reason: String,
-    },
+    Unknown { job_id: JobId, reason: String },
 }
 
 /// Snapshot data.

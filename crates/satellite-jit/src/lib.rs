@@ -9,11 +9,12 @@
 //! - Code hash caching
 //! - Sandboxed execution
 
-pub mod compiler;
 pub mod analysis;
-pub mod truth_table;
-pub mod sandbox;
 pub mod cache;
+pub mod compiler;
+pub mod ir;
+pub mod sandbox;
+pub mod truth_table;
 
-pub use compiler::JitCompiler;
 pub use cache::CodeCache;
+pub use compiler::JitCompiler;

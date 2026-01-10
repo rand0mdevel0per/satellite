@@ -1,6 +1,6 @@
 //! Constraint builders.
 
-        // use std::iter::once;
+// use std::iter::once;
 
 /// A constraint that can be converted to CNF clauses.
 pub enum Constraint {
@@ -40,8 +40,8 @@ impl Constraint {
     /// Creates a biconditional: a <=> b.
     pub fn iff(a: i64, b: i64) -> Self {
         Self::Clauses(vec![
-            vec![-a, b],  // a => b
-            vec![a, -b],  // b => a
+            vec![-a, b], // a => b
+            vec![a, -b], // b => a
         ])
     }
 
@@ -55,7 +55,10 @@ impl Constraint {
         // at_least_k(lits, k) = at_most_k(neg(lits), n - k)
         let negated: Vec<i64> = literals.iter().map(|&l| -l).collect();
         let n = literals.len();
-        Self::AtMostK { literals: negated, k: n - k }
+        Self::AtMostK {
+            literals: negated,
+            k: n - k,
+        }
     }
 
     /// Creates an exactly-k constraint.
@@ -109,7 +112,13 @@ impl Constraint {
         let mut clauses = Vec::new();
 
         // Generate all combinations of size k+1
-        fn combinations(arr: &[i64], k: usize, start: usize, current: &mut Vec<i64>, result: &mut Vec<Vec<i64>>) {
+        fn combinations(
+            arr: &[i64],
+            k: usize,
+            start: usize,
+            current: &mut Vec<i64>,
+            result: &mut Vec<Vec<i64>>,
+        ) {
             if current.len() == k {
                 // At least one must be false => disjunction of negations
                 result.push(current.iter().map(|&l| -l).collect());

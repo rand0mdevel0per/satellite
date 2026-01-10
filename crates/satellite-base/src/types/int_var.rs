@@ -1,7 +1,7 @@
 //! Integer variable stored as big-endian batch.
 
+use super::{Batch, VarId};
 use serde::{Deserialize, Serialize};
-use super::{VarId, Batch};
 
 /// An integer variable represented as a big-endian batch of booleans.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

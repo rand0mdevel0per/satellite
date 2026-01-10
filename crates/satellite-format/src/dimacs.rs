@@ -39,9 +39,9 @@ impl DimacsCnf {
                     num_vars = parts[2].parse().map_err(|e| {
                         Error::Serialization(format!("Invalid variable count: {e}"))
                     })?;
-                    num_clauses = parts[3].parse().map_err(|e| {
-                        Error::Serialization(format!("Invalid clause count: {e}"))
-                    })?;
+                    num_clauses = parts[3]
+                        .parse()
+                        .map_err(|e| Error::Serialization(format!("Invalid clause count: {e}")))?;
                     header_found = true;
                     clauses.reserve(num_clauses);
                 }
@@ -57,9 +57,9 @@ impl DimacsCnf {
             // Parse clause
             let mut clause = Vec::new();
             for token in line.split_whitespace() {
-                let lit: i64 = token.parse().map_err(|e| {
-                    Error::Serialization(format!("Invalid literal: {e}"))
-                })?;
+                let lit: i64 = token
+                    .parse()
+                    .map_err(|e| Error::Serialization(format!("Invalid literal: {e}")))?;
                 if lit == 0 {
                     if !clause.is_empty() {
                         clauses.push(clause);

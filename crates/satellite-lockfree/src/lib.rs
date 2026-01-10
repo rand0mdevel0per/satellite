@@ -8,11 +8,11 @@
 //! - **MVCC**: Multi-version concurrency control for hot path data
 
 pub mod mpmc;
+pub mod mvcc;
 pub mod skiplist;
 pub mod vector;
-pub mod mvcc;
 
 pub use mpmc::{MpmcQueue, Priority};
+pub use mvcc::MvccCell;
 pub use skiplist::ConcurrentSkiplist;
 pub use vector::LockFreeVec;
-pub use mvcc::MvccCell;

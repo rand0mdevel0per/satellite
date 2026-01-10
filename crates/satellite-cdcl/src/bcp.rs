@@ -2,7 +2,6 @@
 //!
 //! Uses watched literals for efficient propagation.
 
-
 /// Result of BCP.
 #[derive(Debug)]
 pub enum BcpResult {

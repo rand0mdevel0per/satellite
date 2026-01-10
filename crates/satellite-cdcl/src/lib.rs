@@ -8,11 +8,11 @@
 //! - Conflict analysis with UIP resolution
 //! - Clause database management
 
-pub mod solver;
-pub mod decision;
 pub mod bcp;
-pub mod conflict;
 pub mod clause_db;
+pub mod conflict;
+pub mod decision;
 pub mod heuristics;
+pub mod solver;
 
-pub use solver::{CdclSolver, CdclConfig, SatResult};
+pub use solver::{CdclConfig, CdclSolver, SatResult};

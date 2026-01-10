@@ -7,22 +7,26 @@ use std::path::Path;
 /// C API function signatures for GPU worker.
 type GpuInitFn = unsafe extern "C" fn() -> i32;
 type GpuShutdownFn = unsafe extern "C" fn();
-type GpuSubmitBcpFn = unsafe extern "C" fn(
+type GpuLaunchKernelFn = unsafe extern "C" fn(
     clause_data: *const i64,
+    clause_offsets: *const usize,
     num_clauses: usize,
     assignments: *const i8,
-    num_vars: usize,
+    results: *mut i32,
+);
+type GpuSubmitJobFn = unsafe extern "C" fn(
+    priority: u32,
+    job_id: u64,
+    branch_id: u64,
+    start: u32,
+    end: u32,
+);
+type GpuReadResultsFn = unsafe extern "C" fn(
+    host_buffer: *mut i32,
+    start_idx: usize,
+    count: usize,
 ) -> i32;
-type GpuPollResultFn = unsafe extern "C" fn(result: *mut GpuResult) -> i32;
-
-/// Result from GPU operation.
-#[repr(C)]
-pub struct GpuResult {
-    /// Status code (0 = ok, 1 = conflict, -1 = error).
-    pub status: i32,
-    /// Conflict clause index (if status == 1).
-    pub conflict_clause: usize,
-}
+type GpuStopKernelFn = unsafe extern "C" fn();
 
 /// Bridge to GPU worker library.
 pub struct GpuBridge {
@@ -52,8 +56,8 @@ impl GpuBridge {
         unsafe {
             let init: Symbol<GpuInitFn> = self
                 .library
-                .get(b"gpu_worker_init")
-                .map_err(|e| Error::GpuError(format!("Missing gpu_worker_init: {}", e)))?;
+                .get(b"init_gpu_device")
+                .map_err(|e| Error::GpuError(format!("Missing init_gpu_device: {}", e)))?;
 
             let result = init();
             if result != 0 {
@@ -68,66 +72,78 @@ impl GpuBridge {
         }
     }
 
-    /// Submits a BCP job to the GPU.
-    pub fn submit_bcp(
+    /// Launches the persistent BCP kernel.
+    /// Note: Buffers must remain valid as long as kernel is running!
+    pub fn start_kernel(
         &self,
         clause_data: &[i64],
-        num_clauses: usize,
+        clause_offsets: &[usize],
         assignments: &[i8],
+        results: &mut [i32],
     ) -> Result<()> {
-        if !self.initialized {
-            return Err(Error::GpuError("GPU not initialized".to_string()));
-        }
-
         unsafe {
-            let submit: Symbol<GpuSubmitBcpFn> = self
+            let launch: Symbol<GpuLaunchKernelFn> = self
                 .library
-                .get(b"gpu_worker_submit_bcp")
-                .map_err(|e| Error::GpuError(format!("Missing gpu_worker_submit_bcp: {}", e)))?;
+                .get(b"launch_persistent_kernel")
+                .map_err(|e| Error::GpuError(format!("Missing launch_persistent_kernel: {}", e)))?;
 
-            let result = submit(
+            launch(
                 clause_data.as_ptr(),
-                num_clauses,
+                clause_offsets.as_ptr(),
+                clause_offsets.len() - 1,
                 assignments.as_ptr(),
-                assignments.len(),
+                results.as_mut_ptr(),
             );
-
-            if result != 0 {
-                return Err(Error::GpuError(format!(
-                    "GPU BCP submit failed with code {}",
-                    result
-                )));
-            }
-
             Ok(())
         }
     }
 
-    /// Polls for a completed GPU result.
-    pub fn poll_result(&self) -> Result<Option<GpuResult>> {
-        if !self.initialized {
-            return Err(Error::GpuError("GPU not initialized".to_string()));
-        }
-
+    /// Submits a job to the persistent kernel.
+    pub fn enqueue_job(
+        &self,
+        priority: u32,
+        job_id: u64,
+        branch_id: u64,
+        start: u32,
+        end: u32,
+    ) -> Result<()> {
         unsafe {
-            let poll: Symbol<GpuPollResultFn> = self
+            let submit: Symbol<GpuSubmitJobFn> = self
                 .library
-                .get(b"gpu_worker_poll_result")
-                .map_err(|e| Error::GpuError(format!("Missing gpu_worker_poll_result: {}", e)))?;
+                .get(b"submit_job")
+                .map_err(|e| Error::GpuError(format!("Missing submit_job: {}", e)))?;
 
-            let mut result = GpuResult {
-                status: -2,
-                conflict_clause: 0,
-            };
+            submit(priority, job_id, branch_id, start, end);
+            Ok(())
+        }
+    }
 
-            let code = poll(&mut result);
-            if code == 0 {
-                Ok(Some(result))
-            } else if code == 1 {
-                Ok(None) // No result ready
-            } else {
-                Err(Error::GpuError(format!("GPU poll failed with code {}", code)))
+    /// Reads results from the GPU.
+    pub fn read_results(&self, start_idx: usize, count: usize, buffer: &mut [i32]) -> Result<()> {
+        unsafe {
+            let read: Symbol<GpuReadResultsFn> = self
+                .library
+                .get(b"read_results")
+                .map_err(|e| Error::GpuError(format!("Missing read_results: {}", e)))?;
+
+            let code = read(buffer.as_mut_ptr(), start_idx, count);
+            if code != 0 {
+                return Err(Error::GpuError(format!("GPU read failed with code {}", code)));
             }
+            Ok(())
+        }
+    }
+
+    /// Stops the persistent kernel.
+    pub fn stop_kernel(&self) -> Result<()> {
+        unsafe {
+            let stop: Symbol<GpuStopKernelFn> = self
+                .library
+                .get(b"stop_persistent_kernel")
+                .map_err(|e| Error::GpuError(format!("Missing stop_persistent_kernel: {}", e)))?;
+
+            stop();
+            Ok(())
         }
     }
 
@@ -141,7 +157,7 @@ impl Drop for GpuBridge {
     fn drop(&mut self) {
         if self.initialized {
             unsafe {
-                if let Ok(shutdown) = self.library.get::<GpuShutdownFn>(b"gpu_worker_shutdown") {
+                if let Ok(shutdown) = self.library.get::<GpuShutdownFn>(b"shutdown_gpu_device") {
                     shutdown();
                 }
             }

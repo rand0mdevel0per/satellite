@@ -6,8 +6,8 @@
 //! rather than traditional CDCL decision tree branching.
 
 pub mod branch;
-pub mod refcount;
 pub mod lifecycle;
+pub mod refcount;
 
 pub use branch::{Branch, BranchId, BranchStatus};
 pub use lifecycle::BranchManager;

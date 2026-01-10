@@ -2,8 +2,8 @@
 //!
 //! Implements a 4-level priority system with lock-free operations.
 
-use std::sync::atomic::{AtomicPtr, AtomicUsize, Ordering};
 use std::ptr;
+use std::sync::atomic::{AtomicPtr, AtomicUsize, Ordering};
 
 /// Priority levels for the queue.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
