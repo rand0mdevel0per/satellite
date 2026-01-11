@@ -6,14 +6,17 @@
 //! - `int` → Integer stored as big-endian in batch
 //! - `vec[batch[dim1], dim2]` → Vector of batches
 //! - `float` → Arbitrary-precision float
+//! - `bitvec` → Fixed-width bitvector (register-like)
 
 mod batch;
+mod bitvec;
 mod bool_var;
 mod float_var;
 mod int_var;
 mod vec_var;
 
 pub use batch::Batch;
+pub use bitvec::{BitVec, MemoryView, Word};
 pub use bool_var::BoolVar;
 pub use float_var::FloatVar;
 pub use int_var::IntVar;

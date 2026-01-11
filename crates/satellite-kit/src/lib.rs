@@ -6,6 +6,7 @@
 //! - Creating and configuring solvers
 //! - Adding constraints
 //! - Solving and retrieving results
+//! - Circuit gadgets (XOR, ADD, ITE, etc.)
 //!
 //! # Example
 //!
@@ -21,21 +22,24 @@
 //! match solver.solve() {
 //!     SatResult::Sat(model) => println!("Solution: {:?}", model),
 //!     SatResult::Unsat => println!("No solution"),
-//!     SatResult::Unknown => println!("Timeout"),
+//!     SatResult::Unknown(_) => println!("Timeout"),
 //! }
 //! ```
 
 pub mod constraint;
 pub mod context_manager;
 pub mod frontend_manager;
+pub mod gadgets;
 pub mod result;
 pub mod solver;
 
 // Re-export core types
-pub use satellite_base::types::{Batch, BoolVar, FloatVar, IntVar, VecVar};
+pub use satellite_base::types::{Batch, BitVec, BoolVar, FloatVar, IntVar, MemoryView, VecVar, Word};
 pub use satellite_base::{Error, Result};
 pub use satellite_cdcl::SatResult;
 
 pub use constraint::Constraint;
+pub use gadgets::CircuitBuilder;
 pub use result::Model;
 pub use solver::Solver;
+

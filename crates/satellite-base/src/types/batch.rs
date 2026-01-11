@@ -64,6 +64,19 @@ impl Batch {
             dim: end - start,
         }
     }
+
+    /// Returns the base ID (alias for `base_id()`).
+    #[must_use]
+    pub const fn id(&self) -> VarId {
+        self.base_id
+    }
+
+    /// Returns the literal for bit at index (1-indexed, positive).
+    #[must_use]
+    pub fn lit(&self, index: usize) -> i64 {
+        assert!(index < self.dim, "Bit index out of bounds");
+        (self.base_id + index as VarId) as i64 + 1 // 1-indexed literal
+    }
 }
 
 impl std::ops::Index<usize> for Batch {

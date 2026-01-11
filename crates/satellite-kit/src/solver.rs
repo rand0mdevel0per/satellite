@@ -187,6 +187,47 @@ impl Solver {
     pub fn num_clauses(&self) -> usize {
         self.clauses.len()
     }
+
+    /// Returns the raw clauses (for cloning/serialization).
+    pub fn get_clauses(&self) -> &[Vec<i64>] {
+        &self.clauses
+    }
+
+    /// Sets the timeout for solving.
+    pub fn set_timeout(&mut self, timeout_ms: u64) {
+        self.config.timeout_secs = Some(timeout_ms / 1000);
+    }
+
+    /// Solves the problem with the given assumptions.
+    /// 
+    /// Assumptions are temporary unit clauses that are only valid for this solve call.
+    pub fn solve_with_assumptions(&mut self, assumptions: &[i64]) -> Result<SatResult> {
+        // Add assumption clauses temporarily
+        let original_clause_count = self.clauses.len();
+        for &lit in assumptions {
+            self.clauses.push(vec![lit]);
+        }
+
+        // Solve
+        let result = self.solve();
+
+        // Remove assumption clauses
+        self.clauses.truncate(original_clause_count);
+
+        result
+    }
+}
+
+impl Clone for Solver {
+    /// Creates a deep copy of the solver (for parallel BFS exploration).
+    fn clone(&self) -> Self {
+        Self {
+            next_var_id: self.next_var_id,
+            variables: self.variables.clone(),
+            clauses: self.clauses.clone(),
+            config: self.config.clone(),
+        }
+    }
 }
 
 impl Default for Solver {
