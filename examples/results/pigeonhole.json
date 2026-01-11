@@ -1,0 +1,8 @@
+{
+  "file": "pigeonhole.cnf",
+  "status": "UNSAT",
+  "time_ms": 4,
+  "variables": 6,
+  "clauses": 9,
+  "model": null
+}

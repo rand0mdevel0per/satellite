@@ -26,3 +26,6 @@ serde_json = { workspace = true }
 walkdir = "2.3"
 rayon = "1.7"
 serde = { workspace = true, features = ["derive"] }
+satellite-base = { workspace = true }
+chrono = { version = "0.4", features = ["serde"] }
+home = "0.5"

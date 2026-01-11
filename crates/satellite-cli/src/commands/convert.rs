@@ -16,7 +16,7 @@ pub struct ConvertArgs {
     pub output: PathBuf,
 
     /// Input format
-    #[arg(short = 'f', long, value_parser = ["dimacs", "json"])]
+    #[arg(short = 'f', long, value_parser = ["dimacs", "json", "jsonc"])]
     pub from: Option<String>,
 
     /// Output format
@@ -48,6 +48,10 @@ pub fn run(args: ConvertArgs) -> anyhow::Result<()> {
             dimacs.to_advanced_cnf()
         }
         "json" => AdvancedCnf::from_json(&content)?,
+        "jsonc" | "sat" => {
+            let canonical: satellite_format::CanonicalCnf = serde_json::from_str(&content)?;
+            canonical.try_into().map_err(|e: String| anyhow::anyhow!(e))?
+        }
         _ => anyhow::bail!("Unknown input format: {}", input_format),
     };
 

@@ -1,0 +1,1977 @@
+{
+  "variables": [
+    {
+      "id": 1,
+      "type": "Bool",
+      "name": "x1"
+    },
+    {
+      "id": 2,
+      "type": "Bool",
+      "name": "x2"
+    },
+    {
+      "id": 3,
+      "type": "Bool",
+      "name": "x3"
+    },
+    {
+      "id": 4,
+      "type": "Bool",
+      "name": "x4"
+    },
+    {
+      "id": 5,
+      "type": "Bool",
+      "name": "x5"
+    },
+    {
+      "id": 6,
+      "type": "Bool",
+      "name": "x6"
+    },
+    {
+      "id": 7,
+      "type": "Bool",
+      "name": "x7"
+    },
+    {
+      "id": 8,
+      "type": "Bool",
+      "name": "x8"
+    },
+    {
+      "id": 9,
+      "type": "Bool",
+      "name": "x9"
+    },
+    {
+      "id": 10,
+      "type": "Bool",
+      "name": "x10"
+    },
+    {
+      "id": 11,
+      "type": "Bool",
+      "name": "x11"
+    },
+    {
+      "id": 12,
+      "type": "Bool",
+      "name": "x12"
+    },
+    {
+      "id": 13,
+      "type": "Bool",
+      "name": "x13"
+    },
+    {
+      "id": 14,
+      "type": "Bool",
+      "name": "x14"
+    },
+    {
+      "id": 15,
+      "type": "Bool",
+      "name": "x15"
+    },
+    {
+      "id": 16,
+      "type": "Bool",
+      "name": "x16"
+    },
+    {
+      "id": 17,
+      "type": "Bool",
+      "name": "x17"
+    },
+    {
+      "id": 18,
+      "type": "Bool",
+      "name": "x18"
+    },
+    {
+      "id": 19,
+      "type": "Bool",
+      "name": "x19"
+    },
+    {
+      "id": 20,
+      "type": "Bool",
+      "name": "x20"
+    },
+    {
+      "id": 21,
+      "type": "Bool",
+      "name": "x21"
+    },
+    {
+      "id": 22,
+      "type": "Bool",
+      "name": "x22"
+    },
+    {
+      "id": 23,
+      "type": "Bool",
+      "name": "x23"
+    },
+    {
+      "id": 24,
+      "type": "Bool",
+      "name": "x24"
+    },
+    {
+      "id": 25,
+      "type": "Bool",
+      "name": "x25"
+    },
+    {
+      "id": 26,
+      "type": "Bool",
+      "name": "x26"
+    },
+    {
+      "id": 27,
+      "type": "Bool",
+      "name": "x27"
+    },
+    {
+      "id": 28,
+      "type": "Bool",
+      "name": "x28"
+    },
+    {
+      "id": 29,
+      "type": "Bool",
+      "name": "x29"
+    },
+    {
+      "id": 30,
+      "type": "Bool",
+      "name": "x30"
+    },
+    {
+      "id": 31,
+      "type": "Bool",
+      "name": "x31"
+    },
+    {
+      "id": 32,
+      "type": "Bool",
+      "name": "x32"
+    },
+    {
+      "id": 33,
+      "type": "Bool",
+      "name": "x33"
+    },
+    {
+      "id": 34,
+      "type": "Bool",
+      "name": "x34"
+    },
+    {
+      "id": 35,
+      "type": "Bool",
+      "name": "x35"
+    },
+    {
+      "id": 36,
+      "type": "Bool",
+      "name": "x36"
+    },
+    {
+      "id": 37,
+      "type": "Bool",
+      "name": "x37"
+    },
+    {
+      "id": 38,
+      "type": "Bool",
+      "name": "x38"
+    },
+    {
+      "id": 39,
+      "type": "Bool",
+      "name": "x39"
+    },
+    {
+      "id": 40,
+      "type": "Bool",
+      "name": "x40"
+    },
+    {
+      "id": 41,
+      "type": "Bool",
+      "name": "x41"
+    },
+    {
+      "id": 42,
+      "type": "Bool",
+      "name": "x42"
+    },
+    {
+      "id": 43,
+      "type": "Bool",
+      "name": "x43"
+    },
+    {
+      "id": 44,
+      "type": "Bool",
+      "name": "x44"
+    },
+    {
+      "id": 45,
+      "type": "Bool",
+      "name": "x45"
+    },
+    {
+      "id": 46,
+      "type": "Bool",
+      "name": "x46"
+    },
+    {
+      "id": 47,
+      "type": "Bool",
+      "name": "x47"
+    },
+    {
+      "id": 48,
+      "type": "Bool",
+      "name": "x48"
+    },
+    {
+      "id": 49,
+      "type": "Bool",
+      "name": "x49"
+    },
+    {
+      "id": 50,
+      "type": "Bool",
+      "name": "x50"
+    }
+  ],
+  "clauses": [
+    {
+      "literals": [
+        -31,
+        24,
+        -46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        24,
+        -40,
+        31
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        25,
+        -33,
+        41
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -43,
+        26,
+        -11
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        18,
+        -37,
+        13
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        40,
+        -17,
+        34
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        18,
+        13,
+        -33
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        1,
+        46,
+        13
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        34,
+        47,
+        -10
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -30,
+        36,
+        28
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        32,
+        -27,
+        46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        41,
+        -48,
+        37
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        20,
+        -22,
+        -23
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -13,
+        2,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -46,
+        -11,
+        3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        5,
+        31,
+        -40
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -1,
+        -35,
+        42
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -45,
+        -43,
+        20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        27,
+        27,
+        -46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -47,
+        49,
+        -24
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -5,
+        -41,
+        3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        20,
+        -38,
+        40
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -11,
+        -46,
+        18
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        42,
+        39,
+        41
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -12,
+        1,
+        27
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        13,
+        -26,
+        5
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -26,
+        -18,
+        -42
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        26,
+        -8,
+        26
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -16,
+        19,
+        4
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -13,
+        -32,
+        12
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -20,
+        9,
+        -38
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -38,
+        45,
+        10
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        1,
+        7,
+        3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -48,
+        17,
+        -40
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -47,
+        -39,
+        -24
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        3,
+        38,
+        46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -18,
+        10,
+        49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -26,
+        -2,
+        31
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        49,
+        30,
+        -34
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        1,
+        -29,
+        15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -42,
+        45,
+        -30
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        11,
+        -37,
+        44
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -26,
+        -6,
+        17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        3,
+        -11,
+        -26
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        9,
+        -19,
+        32
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -23,
+        -47,
+        -32
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -10,
+        -28,
+        23
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -49,
+        32,
+        -22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -22,
+        1,
+        -39
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -35,
+        30,
+        21
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -31,
+        20,
+        -49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -23,
+        -11,
+        34
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        16,
+        -40,
+        -10
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        38,
+        -47,
+        20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        34,
+        -21,
+        -28
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -29,
+        47,
+        36
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -9,
+        -43,
+        7
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -35,
+        39,
+        41
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -30,
+        24,
+        -50
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        35,
+        -3,
+        -8
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        42,
+        19,
+        44
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        28,
+        9,
+        48
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -30,
+        -49,
+        -14
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        23,
+        21,
+        1
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -15,
+        48,
+        43
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        19,
+        16,
+        36
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        47,
+        40,
+        -20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        47,
+        30,
+        38
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -39,
+        40,
+        -1
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -43,
+        -31,
+        17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        35,
+        45,
+        36
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -46,
+        32,
+        -3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -12,
+        13,
+        -23
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -9,
+        12,
+        -21
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        47,
+        -24,
+        -28
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        38,
+        -45,
+        44
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        38,
+        -9,
+        -10
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -38,
+        9,
+        15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        5,
+        -39,
+        -22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        34,
+        43,
+        8
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -26,
+        -42,
+        -2
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        20,
+        -23,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -26,
+        -45,
+        -24
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -1,
+        2,
+        49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        24,
+        -31,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -18,
+        50,
+        -6
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        9,
+        47,
+        -15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -46,
+        -39,
+        22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -35,
+        13,
+        -24
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -47,
+        -42,
+        -15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -40,
+        12,
+        18
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        8,
+        -25,
+        45
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -22,
+        29,
+        -28
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        28,
+        23,
+        9
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        44,
+        -28,
+        23
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -18,
+        -16,
+        -16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -18,
+        31,
+        -40
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        14,
+        35,
+        -10
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        42,
+        -49,
+        7
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -19,
+        -45,
+        -38
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        7,
+        27,
+        36
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -9,
+        -36,
+        48
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -8,
+        5,
+        22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -24,
+        34,
+        3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        25,
+        26,
+        -27
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -49,
+        47,
+        6
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        35,
+        29,
+        -26
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -2,
+        -25,
+        -49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -8,
+        -29,
+        4
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -45,
+        27,
+        20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        50,
+        6,
+        -21
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        15,
+        50,
+        -8
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -48,
+        25,
+        39
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        34,
+        11,
+        16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -13,
+        -36,
+        -45
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -39,
+        6,
+        4
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        27,
+        15,
+        -30
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -41,
+        -48,
+        -35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -39,
+        -41,
+        20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        27,
+        27,
+        3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -23,
+        -7,
+        -19
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        10,
+        -43,
+        -21
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        19,
+        -14,
+        -11
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        18,
+        -17,
+        -30
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -5,
+        20,
+        -49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        46,
+        -25,
+        23
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -8,
+        -29,
+        -4
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        28,
+        -8,
+        -20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        40,
+        -21,
+        48
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -22,
+        -49,
+        -40
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        33,
+        -32,
+        -42
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -24,
+        10,
+        -1
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        12,
+        -16,
+        4
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -10,
+        29,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -12,
+        30,
+        -46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -28,
+        -10,
+        17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -50,
+        -38,
+        -38
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -17,
+        -41,
+        33
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -31,
+        -14,
+        -15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -40,
+        -36,
+        26
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -35,
+        9,
+        18
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -37,
+        1,
+        22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -29,
+        -11,
+        -34
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        37,
+        -44,
+        -14
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        13,
+        -23,
+        11
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -33,
+        7,
+        11
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -27,
+        -34,
+        37
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -38,
+        31,
+        -17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        35,
+        -30,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -45,
+        10,
+        6
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -39,
+        21,
+        42
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -24,
+        -36,
+        -10
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        28,
+        -15,
+        -35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        44,
+        -42,
+        -44
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -18,
+        24,
+        -14
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        49,
+        5,
+        -17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        7,
+        -2,
+        -46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -3,
+        1,
+        47
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        6,
+        36,
+        9
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        10,
+        -32,
+        33
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        21,
+        49,
+        33
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -50,
+        20,
+        -7
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -7,
+        -9,
+        -29
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        36,
+        -42,
+        39
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        20,
+        -8,
+        -46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        22,
+        44,
+        -26
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        50,
+        11,
+        18
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -45,
+        27,
+        -22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        25,
+        32,
+        -6
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -45,
+        18,
+        5
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        23,
+        -29,
+        -21
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        36,
+        50,
+        38
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        29,
+        19,
+        -14
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -2,
+        45,
+        17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        2,
+        -39,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -16,
+        -38,
+        25
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -26,
+        -19,
+        -1
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        33,
+        -7,
+        -16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -33,
+        35,
+        -49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -14,
+        48,
+        -15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        26,
+        -14,
+        -36
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        7,
+        -43,
+        22
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -1,
+        -46,
+        35
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -19,
+        6,
+        -16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -50,
+        37,
+        12
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        31,
+        35,
+        43
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -10,
+        -13,
+        16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -7,
+        29,
+        -46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        21,
+        -40,
+        24
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -33,
+        17,
+        -3
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -29,
+        26,
+        49
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -47,
+        -8,
+        7
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -33,
+        -18,
+        18
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        36,
+        -7,
+        15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        14,
+        8,
+        -28
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        29,
+        10,
+        15
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -36,
+        -25,
+        -39
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        16,
+        -8,
+        -16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        12,
+        -35,
+        -34
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        28,
+        44,
+        18
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -44,
+        -26,
+        46
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -13,
+        -23,
+        23
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -50,
+        -40,
+        19
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        17,
+        -34,
+        20
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        49,
+        3,
+        -36
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -7,
+        50,
+        41
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        7,
+        -44,
+        -17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        35,
+        39,
+        50
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -2,
+        -46,
+        16
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        49,
+        -47,
+        -31
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        8,
+        14,
+        -6
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        49,
+        33,
+        7
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        -38,
+        -42,
+        17
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        25,
+        -40,
+        -12
+      ],
+      "type": "original"
+    },
+    {
+      "literals": [
+        35,
+        -26,
+        40
+      ],
+      "type": "original"
+    }
+  ],
+  "abi_constraints": []
+}

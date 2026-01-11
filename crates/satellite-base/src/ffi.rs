@@ -19,6 +19,9 @@ pub struct FrontendMeta {
     pub file_extensions: *const c_char,
 }
 
+unsafe impl Sync for FrontendMeta {}
+unsafe impl Send for FrontendMeta {}
+
 /// Result of compiling source to LLVM IR.
 #[repr(C)]
 pub struct CompileResult {

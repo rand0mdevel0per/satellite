@@ -1,7 +1,13 @@
 {
   "file": "simple_3sat.json",
   "status": "SAT",
-  "time_ms": 0,
+  "time_ms": 4,
   "variables": 3,
-  "clauses": 4
+  "clauses": 4,
+  "model": [
+    true,
+    false,
+    false,
+    true
+  ]
 }

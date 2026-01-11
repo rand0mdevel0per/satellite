@@ -18,7 +18,7 @@ pub struct StoredClause {
 /// Database for storing clauses.
 pub struct ClauseDatabase {
     /// All clauses.
-    clauses: LockFreeVec<StoredClause>,
+    clauses: Vec<StoredClause>,
     /// Number of original clauses.
     num_original: usize,
 }
@@ -27,34 +27,38 @@ impl ClauseDatabase {
     /// Creates a new empty clause database.
     pub fn new() -> Self {
         Self {
-            clauses: LockFreeVec::new(),
+            clauses: Vec::new(),
             num_original: 0,
         }
     }
 
     /// Adds an original clause.
-    pub fn add_original(&self, literals: Vec<i64>) -> usize {
+    pub fn add_original(&mut self, literals: Vec<i64>) -> usize {
+        let id = self.clauses.len();
         self.clauses.push(StoredClause {
             literals,
             learned: false,
             lbd: None,
             activity: 1.0,
-        })
+        });
+        id
     }
 
     /// Adds a learned clause.
-    pub fn add_learned(&self, literals: Vec<i64>) -> usize {
+    pub fn add_learned(&mut self, literals: Vec<i64>) -> usize {
         self.add_learned_with_lbd(literals, 0)
     }
 
     /// Adds a learned clause with LBD.
-    pub fn add_learned_with_lbd(&self, literals: Vec<i64>, lbd: u32) -> usize {
+    pub fn add_learned_with_lbd(&mut self, literals: Vec<i64>, lbd: u32) -> usize {
+        let id = self.clauses.len();
         self.clauses.push(StoredClause {
             literals,
             learned: true,
             lbd: Some(lbd),
             activity: 1.0,
-        })
+        });
+        id
     }
 
     /// Gets a clause by ID.

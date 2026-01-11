@@ -1,0 +1,41 @@
+{
+    "version": "1.0",
+    "vars": [
+        {
+            "name": "A",
+            "type": "bool"
+        },
+        {
+            "name": "B",
+            "type": "bool"
+        },
+        {
+            "name": "C",
+            "type": "bool"
+        }
+    ],
+    "clauses": [
+        {
+            "expr": "%A OR %B",
+            "id": 1
+        },
+        {
+            "expr": "NOT %A OR %C",
+            "id": 2
+        },
+        {
+            "expr": "NOT %B OR %C",
+            "id": 3
+        },
+        {
+            "expr": "%A",
+            "id": 4
+        }
+    ],
+    "imports": [],
+    "functions": [],
+    "metadata": {
+        "style": "free",
+        "source_hash": "test_isolated"
+    }
+}

@@ -4,7 +4,7 @@
 //! and provide wrappers for CDCL integration.
 
 use crate::Result;
-use crate::frontend_abi::*;
+use satellite_base::ffi::*;
 use libloading::{Library, Symbol};
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
@@ -289,6 +289,42 @@ impl FrontendManager {
     /// Lists all loaded frontends.
     pub fn list_frontends(&self) -> Vec<&FrontendInfo> {
         self.frontends.values().map(|h| &h.meta).collect()
+    }
+
+    /// Discovers and loads frontends from a directory.
+    pub fn discover_frontends(&mut self, dir: &Path) -> Result<()> {
+        if !dir.exists() {
+            return Ok(());
+        }
+
+        tracing::info!("Discovering frontends in {:?}", dir);
+
+        for entry in std::fs::read_dir(dir).map_err(|e| crate::Error::Internal(format!("Failed to read directory: {}", e)))? {
+            let entry = entry.map_err(|e| crate::Error::Internal(format!("Failed to read entry: {}", e)))?;
+            let path = entry.path();
+            
+            if path.is_file() {
+                if let Some(ext) = path.extension().and_then(|s| s.to_str()) {
+                    #[cfg(target_os = "windows")]
+                    let is_lib = ext.eq_ignore_ascii_case("dll");
+                    #[cfg(not(target_os = "windows"))]
+                    let is_lib = ext == "so" || ext == "dylib";
+
+                    if is_lib {
+                        tracing::debug!("Attempting to load frontend from {:?}", path);
+                        // We suppress errors for individual files to avoid stopping discovery
+                        // But log them as warnings
+                         match unsafe { self.load_frontend(&path) } {
+                             Ok(_) => {},
+                             Err(e) => {
+                                 tracing::warn!("Failed to load frontend {:?}: {}", path, e);
+                             }
+                         }
+                    }
+                }
+            }
+        }
+        Ok(())
     }
 }
 

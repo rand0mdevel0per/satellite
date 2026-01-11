@@ -99,6 +99,16 @@ impl PropagationQueue {
         self.head >= self.queue.len()
     }
 
+    /// Returns the number of items remaining.
+    pub fn len(&self) -> usize {
+        self.queue.len() - self.head
+    }
+
+    /// Returns the total size of the backing vector.
+    pub fn total_capacity(&self) -> usize {
+        self.queue.capacity()
+    }
+
     /// Clears the queue.
     pub fn clear(&mut self) {
         self.queue.clear();

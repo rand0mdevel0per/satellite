@@ -8,7 +8,7 @@ use satellite_base::{Result, types::VarId};
 use satellite_format::AdvancedCnf;
 
 /// The result of a SAT solve.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum SatResult {
     /// Satisfiable with a model (variable assignments).
     Sat(Vec<bool>),
@@ -85,19 +85,23 @@ pub struct SolverStats {
 impl CdclSolver {
     /// Creates a new solver from an Advanced-CNF problem.
     pub fn new(problem: &AdvancedCnf) -> Self {
-        // Calculate num_vars: use variables.len() if available, otherwise derive from max literal
-        let num_vars = if !problem.variables.is_empty() {
-            problem.variables.len()
-        } else {
-            // Derive from max absolute literal value in clauses
-            problem
-                .clauses
-                .iter()
-                .flat_map(|c| c.literals.iter())
-                .map(|&lit| lit.unsigned_abs() as usize)
-                .max()
-                .unwrap_or(0)
-        };
+        // Calculate num_vars: use max of variables.len() and max literal
+        // We scan clauses to be robust against sparse IDs or Batch/Vec expansion
+        let max_lit = problem
+            .clauses
+            .iter()
+            .flat_map(|c| c.literals.iter())
+            .map(|&lit| lit.unsigned_abs() as usize)
+            .max()
+            .unwrap_or(0);
+            
+        let max_var_id = problem.variables.iter().map(|v| {
+            let count = v.var_type.bool_count();
+            (v.id as usize) + count - 1
+        }).max().unwrap_or(0);
+        
+        let num_vars = max_lit.max(max_var_id).max(problem.variables.len());
+
 
         let config = CdclConfig::default();
 
@@ -116,7 +120,9 @@ impl CdclSolver {
             has_initial_conflict: false,
         };
 
+
         // Load clauses from problem
+        let mut c_count = 0;
         for clause in &problem.clauses {
             solver.add_clause(clause.literals.clone());
         }
@@ -126,6 +132,7 @@ impl CdclSolver {
 
     /// Adds a clause to the database and watches.
     pub fn add_clause(&mut self, literals: Vec<i64>) {
+        // eprintln!("DEBUG: adding clause {:?}", literals); 
         if literals.is_empty() {
             return;
         } // Empty clause = conflict immediately usually, handled during solve
@@ -168,29 +175,33 @@ impl CdclSolver {
         
         // Main CDCL loop
         loop {
-            // Boolean Constraint Propagation
-            if let Some(conflict_clause) = self.propagate() {
+            if let Some(_conflict_clause) = self.propagate() {
                 self.stats.conflicts += 1;
-
-                // At decision level 0, problem is UNSAT
+                
+                // Conflict at decision level 0 means UNSAT
                 if self.decision_level() == 0 {
                     return Ok(SatResult::Unsat);
                 }
-
-                // Conflict analysis and backtrack
-                let (learned_clause, backtrack_level) = self.analyze_conflict(conflict_clause);
-                self.backtrack(backtrack_level);
-                self.add_learned_clause(learned_clause);
-
-                // Check for restart
-                if self.should_restart() {
-                    self.restart();
+                
+                // Simple backtracking: undo last decision and try opposite value
+                // TODO: Implement proper 1-UIP conflict analysis and clause learning
+                if let Some((var, val)) = self.decision.pop_decision() {
+                    // Undo all assignments from this level
+                    while let Some(lit) = self.trail.pop() {
+                        let v = (lit.abs() - 1) as usize;
+                        self.assignments[v] = None;
+                    }
+                    self.prop_q.clear();
+                    
+                    // Try opposite value
+                    self.decide(var, !val);
+                } else {
+                    return Ok(SatResult::Unsat);
                 }
             } else {
-                // No conflict - try to make a decision
                 if let Some(var) = self.pick_branch_variable() {
                     self.stats.decisions += 1;
-                    self.decide(var, true); // Default to true
+                    self.decide(var, true);
                 } else {
                     // All variables assigned - SAT!
                     let model = self.extract_model();
@@ -207,9 +218,15 @@ impl CdclSolver {
 
     /// Performs BCP and returns a conflict clause if one is found.
     fn propagate(&mut self) -> Option<usize> {
+        let mut props = 0;
         while let Some(lit) = self.prop_q.dequeue() {
-            let false_lit = -lit; // The literal that became false
+            props += 1;
+            if props > 1_000_000 {
+                panic!("DEBUG: Propagate infinite loop detected! props > 1M");
+            }
 
+            let false_lit = -lit; // The literal that became false
+            
             // We need to notify watchers of false_lit
             // Note: WatchedLiterals structure stores watches for the literal being watched.
             // If `lit` is true, then `-lit` is false. Watches watching `-lit` need to be updated.
@@ -220,7 +237,7 @@ impl CdclSolver {
             let mut i = 0;
 
             while i < watches.len() {
-                let watch = watches[i].clone();
+                let mut watch = watches[i].clone();
                 let clause_id = watch.clause_id;
                 let blocker = watch.blocker;
 
@@ -235,87 +252,47 @@ impl CdclSolver {
                 // Need to inspect the clause
                 // Access clause from database
                 // Safety: We extracted watches, so we can access clauses
-                let clause = self.clauses.get(clause_id).unwrap();
-                let literals = clause.literals.clone(); // Clone for modification check? 
-                // Actually need to modify the clause in-place for watcher swap?
-                // Watched literal scheme usually requires mutable access to clause to swap literals?
-                // Or just update the watch structure?
-                // Standard scheme: Clause has lit[0] and lit[1] as watchers.
-                // If we don't permute clause, we rely on the Watch struct.
-                // Here Watch struct has { clause_id, blocker }.
-                // But we need to find a new watcher in the clause.
-
-                // Assuming literals[0] and literals[1] are the watched ones is standard.
-                // If we don't reorder clause, we need to know WHICH literal in clause is being watched.
-                // Let's assume we maintain invariant: clause.literals[0] and [1] are watchers.
-                // So if false_lit is at [0], we try to swap [0] with something else > [1].
-                // If false_lit is at [1], we try to swap [1] with something else > [1] (Wait, >1?).
-
-                // Since generic implementation is complex inside this tool block,
-                // I will assume a simplified version or standard swap.
-                // Simplified: Just scan clause for a non-false literal.
-
-                let mut new_watcher_idx = None;
-                let is_other_watch_true = false;
-
-                // Identification of other watcher
-                let other_watch_lit = if literals[0] == false_lit {
-                    literals[1]
-                } else {
-                    literals[0]
-                };
+                // No swapping possible in LockFreeVec, so we search for a new watcher linearly.
+                // We use 'blocker' as the other watched literal.
+                let other_watch_lit = blocker;
 
                 if self.value(other_watch_lit) == Some(true) {
-                    // Clause satisfied by other watcher
-                    // Update blocker in current watch?
-                    // Actually we just keep the watch.
+                    // Clause satisfaction confirmed by blocker
                     self.watches.get_watches_mut(false_lit).push(watch);
                     i += 1;
                     continue;
                 }
 
-                // Look for new literal to watch
-                for (k, &candidate) in literals.iter().enumerate().skip(2) {
-                    if self.value(candidate) != Some(false) {
-                        new_watcher_idx = Some(k);
-                        break;
+                // Need to find a new watcher
+                let clause = self.clauses.get(clause_id).unwrap();
+                let mut new_watcher_idx = None;
+
+                for (k, &candidate) in clause.literals.iter().enumerate() {
+                    // Candidate must not be the false literal and not the other watcher
+                    if candidate != false_lit && candidate != other_watch_lit {
+                         if self.value(candidate) != Some(false) {
+                            new_watcher_idx = Some(k);
+                            break;
+                        }
                     }
                 }
 
                 if let Some(idx) = new_watcher_idx {
                     // Found new watcher
-                    let new_lit = literals[idx];
-
-                    // Swap literals in clause (requires mutable clause access)
-                    // But ClauseDatabase stores StoredClause which owns Vec<i64>.
-                    // We need mutable access to clauses. ClauseDatabase has LockFreeVec which might be append-only?
-                    // Review ClauseDatabase: `clauses: LockFreeVec<StoredClause>`.
-                    // StoredClause fields are public.
-                    // But LockFreeVec returns `Option<&StoredClause>` (immutable ref).
-                    // This is a problem for standard 2-watched-literal scheme which requires swapping.
-                    // If we can't swap, we must scan linearly or use a separate state for watchers.
-                    // Or maybe LockFreeVec supports `get_mut`?
-                    // If not, we fall back to just finding a new literal but not swapping.
-                    // But then iterating "skip(2)" doesn't work next time.
-
-                    // Allow me to check LockFreeVec source first?
-                    // Assuming for now we CANNOT swap in LockFreeVec easily.
-                    // Strategy: Just linear scan for now (simpler, correct).
-                    // Wait, `watches` list updates: Add `new_lit` to watches.
-                    // Remove `false_lit` from watches (we just don't push it back).
-                    // We add a new Watch { clause_id, blocker: other_watch_lit } to `new_lit`'s list.
-
+                    let new_lit = clause.literals[idx];
+                    // Add watch to new literal, pointing to other_watch_lit as blocker
                     self.watches.add_watch(new_lit, clause_id, other_watch_lit);
+                    // Move to next watch in original list (this one moved to new_lit)
                     i += 1;
                 } else {
-                    // No new watcher found.
-                    // Clause is unit or conflicting.
+                    // No new watcher found. Clause is Unit or Conflicting.
                     self.watches.get_watches_mut(false_lit).push(watch); // Keep watching it
                     i += 1;
 
                     if self.value(other_watch_lit) == Some(false) {
-                        // Conflict! Both watchers false, no alternative.
+                        // Conflict! Both watchers false.
                         // Restore remaining watches to avoid losing them
+                        // eprintln!("DEBUG: Conflict found at clause {}", clause_id);
                         while i < watches.len() {
                             self.watches
                                 .get_watches_mut(false_lit)

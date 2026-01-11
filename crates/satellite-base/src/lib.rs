@@ -17,3 +17,5 @@ pub mod utils;
 
 pub use error::{Error, Result};
 pub use types::{Batch, BoolVar, FloatVar, IntVar, VecVar};
+
+pub mod ffi;

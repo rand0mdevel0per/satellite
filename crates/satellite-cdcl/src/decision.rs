@@ -117,6 +117,16 @@ impl DecisionEngine {
         self.levels.truncate(level + 1);
     }
 
+    /// Pops the last decision, returning (var, value_tried).
+    /// Returns None if at level 0 (no decision to pop).
+    pub fn pop_decision(&mut self) -> Option<(VarId, bool)> {
+        if self.levels.len() <= 1 {
+            return None; // Can't pop below level 0
+        }
+        let level = self.levels.pop()?;
+        level.decision_var.map(|var| (var, true)) // Assume we tried true first
+    }
+
     /// Picks the next variable to branch on.
     ///
     /// Returns None if all variables are assigned.

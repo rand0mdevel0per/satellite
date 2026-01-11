@@ -1,0 +1,8 @@
+{
+  "file": "test_canonical.jsonc",
+  "status": "SAT",
+  "time_ms": 0,
+  "variables": 3,
+  "clauses": 4,
+  "model": null
+}

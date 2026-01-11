@@ -1,0 +1,8 @@
+{
+  "file": "problem_009.json",
+  "status": "UNSAT",
+  "time_ms": 0,
+  "variables": 50,
+  "clauses": 215,
+  "model": null
+}

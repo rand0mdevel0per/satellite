@@ -13,7 +13,7 @@ members = [
     "crates/satellite-kit",
     "crates/satellite-cli",
     "crates/satellite-daemon",
-    "crates/satellite-ide",
+    "crates/satellite-ide", "crates/satellite-python-frontend", "crates/satellite-rust-frontend", "crates/satellite-cpp-frontend",
 ]
 
 [workspace.package]
@@ -72,6 +72,10 @@ tauri-plugin-shell = { version = "2.0" }
 # Testing
 criterion = "0.5"
 proptest = "1.0"
+
+# Concurrency
+once_cell = "1.19"
+crossbeam = "0.8"
 
 [workspace.lints.rust]
 unsafe_code = "warn"

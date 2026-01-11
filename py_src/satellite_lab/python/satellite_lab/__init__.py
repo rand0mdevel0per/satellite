@@ -123,3 +123,14 @@ class BatchingSolver:
         self._solver = Solver()
         self._pending_clauses.clear()
         self._finalized = False
+
+
+def satellite_constraint(func):
+    """
+    Decorator to mark a function as a Satellite constraint (ABI-OP).
+    
+    The function will be compiled/analyzed by the Satellite frontend adapter.
+    """
+    # Mark the function for inspection
+    func._is_satellite_constraint = True
+    return func

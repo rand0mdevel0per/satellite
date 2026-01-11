@@ -18,6 +18,7 @@ satellite-worker = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
 libloading = { workspace = true }
+once_cell = { workspace = true }
 
 [dev-dependencies]
 proptest = { workspace = true }
