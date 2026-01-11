@@ -32,6 +32,8 @@ enum Commands {
         #[arg(long, default_value = "ws://localhost:8080")]
         url: String,
     },
+    /// Run batch processing
+    Batch(commands::batch::BatchArgs),
 }
 
 fn main() -> anyhow::Result<()> {
@@ -57,5 +59,6 @@ fn main() -> anyhow::Result<()> {
             // TODO: Implement daemon connection
             Ok(())
         }
+        Commands::Batch(args) => commands::batch::run(args),
     }
 }

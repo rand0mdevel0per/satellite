@@ -3769,14 +3769,18 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap",
+ "rayon",
+ "satellite-cdcl",
  "satellite-format",
  "satellite-kit",
  "satellite-protocol",
+ "serde",
  "serde_json",
  "tokio",
  "tokio-tungstenite",
  "tracing",
  "tracing-subscriber",
+ "walkdir",
 ]
 
 [[package]]

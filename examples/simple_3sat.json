@@ -2,17 +2,17 @@
     "variables": [
         {
             "id": 1,
-            "type": "bool",
+            "type": "Bool",
             "name": "A"
         },
         {
             "id": 2,
-            "type": "bool",
+            "type": "Bool",
             "name": "B"
         },
         {
             "id": 3,
-            "type": "bool",
+            "type": "Bool",
             "name": "C"
         }
     ],

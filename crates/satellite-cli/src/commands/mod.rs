@@ -2,4 +2,5 @@
 
 pub mod convert;
 pub mod profile;
+pub mod batch;
 pub mod solve;

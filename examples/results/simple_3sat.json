@@ -1,0 +1,7 @@
+{
+  "file": "simple_3sat.json",
+  "status": "SAT",
+  "time_ms": 0,
+  "variables": 3,
+  "clauses": 4
+}
