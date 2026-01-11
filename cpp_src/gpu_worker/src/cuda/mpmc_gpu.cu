@@ -1,4 +1,9 @@
-#include "types.h"
+/**
+ * @file mpmc_gpu.cu
+ * @brief CUDA MPMC queue host functions implementation.
+ */
+
+#include "../common/types.h"
 #include <cuda_runtime.h>
 
 namespace satellite {
@@ -20,22 +25,18 @@ __global__ void init_queue_kernel(GpuQueue* queue) {
 __host__ GpuQueue* GpuQueue::create() {
     GpuQueue host_queue;
     
-    // Allocate nodes
+    // Allocate device memory for queue components
     cudaMalloc(&host_queue.nodes, sizeof(QueueNode) * MAX_NODES);
-    
-    // Allocate heads
     cudaMalloc(&host_queue.heads, sizeof(int) * NUM_PRIORITY_LEVELS);
-    
-    // Allocate counters
     cudaMalloc(&host_queue.free_head, sizeof(int));
     cudaMalloc(&host_queue.node_count, sizeof(int));
     
-    // Allocate struct on device
+    // Allocate queue struct on device
     GpuQueue* device_queue;
     cudaMalloc(&device_queue, sizeof(GpuQueue));
     cudaMemcpy(device_queue, &host_queue, sizeof(GpuQueue), cudaMemcpyHostToDevice);
     
-    // Launch init kernel
+    // Initialize queue
     init_queue_kernel<<<1, 1>>>(device_queue);
     cudaDeviceSynchronize();
     

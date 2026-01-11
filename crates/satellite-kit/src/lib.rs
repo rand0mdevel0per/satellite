@@ -26,6 +26,8 @@
 //! ```
 
 pub mod constraint;
+pub mod frontend_abi;
+pub mod frontend_manager;
 pub mod result;
 pub mod solver;
 

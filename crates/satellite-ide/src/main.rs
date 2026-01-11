@@ -4,6 +4,7 @@
 
 mod commands;
 mod lsp;
+mod plugin_runtime;
 
 fn main() {
     tauri::Builder::default()
@@ -13,6 +14,13 @@ fn main() {
             commands::parse_file,
             commands::get_diagnostics,
             commands::format_document,
+            commands::get_problem_stats,
+            commands::get_clause_graph,
+            commands::export_result,
+            commands::load_plugin,
+            commands::lsp_complete,
+            commands::lsp_hover,
+            commands::lsp_diagnostics,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

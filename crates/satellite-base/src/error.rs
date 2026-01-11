@@ -43,6 +43,10 @@ pub enum Error {
     /// Internal solver error.
     #[error("Internal error: {0}")]
     Internal(String),
+
+    /// Timeout during sandboxed execution.
+    #[error("Timeout: {0}")]
+    TimeoutError(String),
 }
 
 /// Convenient Result type alias.

@@ -101,3 +101,105 @@ impl Default for Scheduler {
         Self::new()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_scheduler_submit_job() {
+        let mut scheduler = Scheduler::new();
+        
+        let req = SubmitJobRequest {
+            problem_json: r#"{"clauses":[[1,2],[-1,3]]}"#.to_string(),
+            timeout_secs: None,
+            use_gpu: false,
+            cpu_workers: 0,
+        };
+        
+        let job_id = scheduler.submit_job(req).unwrap();
+        assert!(job_id > 0, "Job ID should be positive");
+    }
+
+    #[test]
+    fn test_scheduler_get_status() {
+        let mut scheduler = Scheduler::new();
+        
+        let req = SubmitJobRequest {
+            problem_json: "{}".to_string(),
+            timeout_secs: None,
+            use_gpu: false,
+            cpu_workers: 0,
+        };
+        
+        let job_id = scheduler.submit_job(req).unwrap();
+        
+        let status = scheduler.get_status(job_id);
+        assert!(status.is_some());
+        
+        let status = status.unwrap();
+        assert_eq!(status.job_id, job_id);
+        assert_eq!(status.state, JobState::Queued);
+    }
+
+    #[test]
+    fn test_scheduler_cancel_job() {
+        let mut scheduler = Scheduler::new();
+        
+        let req = SubmitJobRequest {
+            problem_json: "{}".to_string(),
+            timeout_secs: None,
+            use_gpu: false,
+            cpu_workers: 0,
+        };
+        
+        let job_id = scheduler.submit_job(req).unwrap();
+        scheduler.cancel_job(job_id);
+        
+        let status = scheduler.get_status(job_id).unwrap();
+        assert_eq!(status.state, JobState::Cancelled);
+    }
+
+    #[test]
+    fn test_scheduler_get_status_nonexistent() {
+        let scheduler = Scheduler::new();
+        
+        let status = scheduler.get_status(99999);
+        assert!(status.is_none());
+    }
+
+    #[test]
+    fn test_scheduler_multiple_jobs() {
+        let mut scheduler = Scheduler::new();
+        
+        let id1 = scheduler.submit_job(SubmitJobRequest {
+            problem_json: "{}".to_string(),
+            timeout_secs: None,
+            use_gpu: false,
+            cpu_workers: 0,
+        }).unwrap();
+        
+        let id2 = scheduler.submit_job(SubmitJobRequest {
+            problem_json: "{}".to_string(),
+            timeout_secs: None,
+            use_gpu: false,
+            cpu_workers: 0,
+        }).unwrap();
+        
+        let id3 = scheduler.submit_job(SubmitJobRequest {
+            problem_json: "{}".to_string(),
+            timeout_secs: None,
+            use_gpu: false,
+            cpu_workers: 0,
+        }).unwrap();
+        
+        // IDs should be unique and sequential
+        assert!(id1 < id2);
+        assert!(id2 < id3);
+        
+        // All should have status
+        assert!(scheduler.get_status(id1).is_some());
+        assert!(scheduler.get_status(id2).is_some());
+        assert!(scheduler.get_status(id3).is_some());
+    }
+}

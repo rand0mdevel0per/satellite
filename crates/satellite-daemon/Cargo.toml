@@ -8,7 +8,7 @@ repository.workspace = true
 rust-version.workspace = true
 
 [[bin]]
-name = "satellite-daemon"
+name = "satellited"
 path = "src/main.rs"
 
 [dependencies]

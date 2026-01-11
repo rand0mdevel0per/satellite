@@ -1,12 +1,11 @@
 //! High-level solver API.
 
 use crate::constraint::Constraint;
-use crate::result::Model;
 use satellite_base::Result;
 use satellite_base::types::{Batch, BoolVar, FloatVar, IntVar, VarId, VarType, VecVar};
 use satellite_cdcl::{CdclConfig, CdclSolver, SatResult};
 use satellite_format::AdvancedCnf;
-use satellite_worker::{WorkerPool, WorkerPoolConfig};
+use satellite_worker::WorkerPoolConfig;
 
 /// Solver configuration.
 #[derive(Debug, Clone)]

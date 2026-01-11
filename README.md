@@ -16,9 +16,13 @@ Satellite is a next-generation constraint satisfaction solver that extends tradi
 
 | Crate | Description |
 |-------|-------------|
-| `satellite-kit` | Core solver library and API |
+| `satellite-kit` | Core solver library and API integration |
+| `satellite-cdcl` | High-performance CDCL solver core with 1-UIP learning |
+| `satellite-jit` | LLVM-based JIT compiler for ABI-OP constraints |
+| `satellite-daemon` | Distributed solving scheduler and server |
+| `satellite-format` | Advanced-CNF and DIMACS format parsers |
+| `satellite-base` | Common types and utilities |
 | `satellite-cli` | Full-featured command-line interface |
-| `satellite-daemon` | Server process for distributed solving |
 | `satellite-ide` | Modern IDE with LSP, syntax highlighting, debugger |
 
 ### Python Packages (PyPI)

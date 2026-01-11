@@ -14,18 +14,10 @@ type GpuLaunchKernelFn = unsafe extern "C" fn(
     assignments: *const i8,
     results: *mut i32,
 );
-type GpuSubmitJobFn = unsafe extern "C" fn(
-    priority: u32,
-    job_id: u64,
-    branch_id: u64,
-    start: u32,
-    end: u32,
-);
-type GpuReadResultsFn = unsafe extern "C" fn(
-    host_buffer: *mut i32,
-    start_idx: usize,
-    count: usize,
-) -> i32;
+type GpuSubmitJobFn =
+    unsafe extern "C" fn(priority: u32, job_id: u64, branch_id: u64, start: u32, end: u32);
+type GpuReadResultsFn =
+    unsafe extern "C" fn(host_buffer: *mut i32, start_idx: usize, count: usize) -> i32;
 type GpuStopKernelFn = unsafe extern "C" fn();
 
 /// Bridge to GPU worker library.
@@ -82,10 +74,10 @@ impl GpuBridge {
         results: &mut [i32],
     ) -> Result<()> {
         unsafe {
-            let launch: Symbol<GpuLaunchKernelFn> = self
-                .library
-                .get(b"launch_persistent_kernel")
-                .map_err(|e| Error::GpuError(format!("Missing launch_persistent_kernel: {}", e)))?;
+            let launch: Symbol<GpuLaunchKernelFn> =
+                self.library.get(b"launch_persistent_kernel").map_err(|e| {
+                    Error::GpuError(format!("Missing launch_persistent_kernel: {}", e))
+                })?;
 
             launch(
                 clause_data.as_ptr(),
@@ -128,7 +120,10 @@ impl GpuBridge {
 
             let code = read(buffer.as_mut_ptr(), start_idx, count);
             if code != 0 {
-                return Err(Error::GpuError(format!("GPU read failed with code {}", code)));
+                return Err(Error::GpuError(format!(
+                    "GPU read failed with code {}",
+                    code
+                )));
             }
             Ok(())
         }

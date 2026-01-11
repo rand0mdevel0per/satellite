@@ -1,0 +1,51 @@
+{
+    "variables": [
+        {
+            "id": 1,
+            "type": "bool",
+            "name": "A"
+        },
+        {
+            "id": 2,
+            "type": "bool",
+            "name": "B"
+        },
+        {
+            "id": 3,
+            "type": "bool",
+            "name": "C"
+        }
+    ],
+    "clauses": [
+        {
+            "literals": [
+                1,
+                2,
+                3
+            ],
+            "type": "original"
+        },
+        {
+            "literals": [
+                -1,
+                -2
+            ],
+            "type": "original"
+        },
+        {
+            "literals": [
+                -1,
+                -3
+            ],
+            "type": "original"
+        },
+        {
+            "literals": [
+                -2,
+                -3
+            ],
+            "type": "original"
+        }
+    ],
+    "abi_constraints": []
+}

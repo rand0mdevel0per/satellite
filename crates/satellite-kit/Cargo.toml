@@ -17,6 +17,7 @@ satellite-jit = { workspace = true }
 satellite-worker = { workspace = true }
 thiserror = { workspace = true }
 tracing = { workspace = true }
+libloading = { workspace = true }
 
 [dev-dependencies]
 proptest = { workspace = true }

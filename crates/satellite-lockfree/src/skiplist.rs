@@ -19,7 +19,7 @@ struct SkipNode<K, V> {
 
 impl<K, V> SkipNode<K, V> {
     fn new(key: K, value: V, height: usize) -> *mut Self {
-        let mut next = std::array::from_fn(|_| AtomicPtr::new(ptr::null_mut()));
+        let next = std::array::from_fn(|_| AtomicPtr::new(ptr::null_mut()));
         Box::into_raw(Box::new(Self {
             key,
             value,

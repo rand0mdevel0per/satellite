@@ -1,7 +1,6 @@
 //! Reference counting for branch lifecycle.
 
 use super::branch::{Branch, BranchId, BranchStatus};
-use std::sync::atomic::{AtomicU32, Ordering};
 
 /// Callback for branch events.
 pub trait BranchCallback: Send + Sync {

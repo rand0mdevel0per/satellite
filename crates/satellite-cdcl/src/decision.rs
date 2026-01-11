@@ -3,8 +3,8 @@
 use satellite_base::types::VarId;
 
 use crate::heuristics::{CombinedHeuristics, HeuristicWeights};
-use std::collections::BinaryHeap;
 use std::cmp::Ordering;
+use std::collections::BinaryHeap;
 
 /// Manages decision levels and variable selection.
 pub struct DecisionEngine {
@@ -36,7 +36,9 @@ impl Eq for VarScore {}
 impl Ord for VarScore {
     fn cmp(&self, other: &Self) -> Ordering {
         // Max-heap based on score
-        self.score.partial_cmp(&other.score).unwrap_or(Ordering::Equal)
+        self.score
+            .partial_cmp(&other.score)
+            .unwrap_or(Ordering::Equal)
     }
 }
 
@@ -59,7 +61,7 @@ impl DecisionEngine {
     pub fn new(num_vars: usize, weights: HeuristicWeights) -> Self {
         let heuristics = CombinedHeuristics::new(num_vars, weights);
         let mut queue = BinaryHeap::new();
-        
+
         // Initialize queue with all variables
         for i in 0..num_vars {
             queue.push(VarScore {
@@ -91,23 +93,23 @@ impl DecisionEngine {
             trail_pos: 0,
         }); // trail_pos must be updated by solver when pushing
     }
-    
+
     // Helper to update trail_pos of the *current* level start.
-    // Actually solver does this logic. 
+    // Actually solver does this logic.
     // We just need accessors or allow public access.
     // For simplicity, let's allow updating the top level's trail_pos or make DecisionLevel public?
     // Solver usually manages the trail. DecisionEngine manages *levels*.
-    
+
     /// Updates the trail position of the current level (used when new level starts).
     pub fn set_trail_pos(&mut self, pos: usize) {
         if let Some(last) = self.levels.last_mut() {
             last.trail_pos = pos;
         }
     }
-    
+
     /// Gets trail pos of current level.
     pub fn trail_pos(&self) -> usize {
-         self.levels.last().map(|l| l.trail_pos).unwrap_or(0)
+        self.levels.last().map(|l| l.trail_pos).unwrap_or(0)
     }
 
     /// Backtracks to the given level.
@@ -125,7 +127,7 @@ impl DecisionEngine {
                 self.queue.pop();
                 continue;
             }
-            
+
             // Check if score is stale (simple check: if significantly different?)
             // For now, accept the top. Or rebuild?
             // Correct VSIDS implementation requires re-inserting on bump.
@@ -134,13 +136,13 @@ impl DecisionEngine {
             // For MVP: Pop current best. return it.
             // But we shouldn't pop if we just want to peek for unassigned?
             // Actually, once decided, it becomes assigned, so we can pop.
-            
+
             let var = vs.var;
             self.queue.pop();
             return Some(var);
         }
-        
-        // If queue empty but vars unassigned (due to lazy pops not refilling?), 
+
+        // If queue empty but vars unassigned (due to lazy pops not refilling?),
         // we might be in trouble if we don't refill.
         // But we initialized with all vars. We pop when assigned.
         // If unassigned later (backtrack), we need to re-insert!
@@ -153,15 +155,15 @@ impl DecisionEngine {
         // BUT variables become eligible again.
         // For MVP: Re-scan all variables if heap is empty or just linear scan if heap is troublesome?
         // Specs say "Heuristics... run in parallel".
-        
+
         // Let's stick to linear scan for MVP fallback or if queue logic is tricky.
-        // Actually, just iterating all vars and finding max score is O(N) per decision. 
-        // N is large? 
+        // Actually, just iterating all vars and finding max score is O(N) per decision.
+        // N is large?
         // Let's implement O(N) scan for Safety First MVP (matches previous iteration method but with scores).
-        
+
         let mut best_var = None;
         let mut best_score = -1.0;
-        
+
         for (i, assignment) in assignments.iter().enumerate() {
             if assignment.is_none() {
                 let score = self.heuristics.score(i as VarId);

@@ -6,7 +6,6 @@ use std::thread::{self, JoinHandle};
 
 use crate::gpu_bridge::GpuBridge;
 use crate::job::{Job, JobResult};
-use satellite_branch::BranchId;
 use satellite_lockfree::{MpmcQueue, Priority};
 
 /// Configuration for the worker pool.

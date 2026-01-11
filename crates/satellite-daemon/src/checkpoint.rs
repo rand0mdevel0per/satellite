@@ -3,7 +3,7 @@
 use satellite_format::Snapshot;
 use satellite_kit::Result;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 /// Checkpoint manager for long-running solves.
 pub struct CheckpointManager {

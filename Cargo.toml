@@ -13,7 +13,7 @@ members = [
     "crates/satellite-kit",
     "crates/satellite-cli",
     "crates/satellite-daemon",
-    # "crates/satellite-ide",
+    "crates/satellite-ide",
 ]
 
 [workspace.package]
@@ -67,6 +67,7 @@ libloading = "0.8"
 # Tauri (IDE)
 tauri = { version = "2.0", features = [] }
 tauri-build = { version = "2.0", features = [] }
+tauri-plugin-shell = { version = "2.0" }
 
 # Testing
 criterion = "0.5"

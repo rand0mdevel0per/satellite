@@ -1,6 +1,6 @@
 //! Code hash caching for compiled ABI-OPs.
 
-use satellite_base::{Error, Result};
+use satellite_base::Result;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::sync::RwLock;
