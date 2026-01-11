@@ -271,6 +271,11 @@ p cnf 3 2
                     [/\b(AND|OR|NOT|XOR|and|or|not|xor|eq|True|False|true|false)\b/, 'keyword'],
                     [/\b(i|f)\d+(\.\d+)?\b/, 'number'],
                     [/[+\-*\/%\^&|~<>=!]+/, 'operator'],
+                ],
+                comment: [
+                    [/[^\/*]+/, 'comment'],
+                    [/\*\//, 'comment', '@pop'],
+                    [/[\/*]/, 'comment']
                 ]
             }
         } as any);
