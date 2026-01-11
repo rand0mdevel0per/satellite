@@ -2,11 +2,15 @@
 //!
 //! This module provides a global registry for solver contexts,
 //! allowing Python and other FFI clients to reference solvers by ID.
+//! 
+//! Uses crossbeam channels for truly async job processing.
 
+use crossbeam::channel::{self, Receiver, Sender};
 use once_cell::sync::Lazy;
+use parking_lot::Mutex;
 use std::collections::HashMap;
-use std::sync::atomic::{AtomicU32, AtomicU64, Ordering};
-use std::sync::Mutex;
+use std::sync::atomic::{AtomicU32, AtomicU64, AtomicBool, Ordering};
+use std::thread;
 
 use crate::solver::Solver;
 use satellite_cdcl::SatResult;
@@ -54,7 +58,13 @@ struct Job {
     status: JobStatus,
 }
 
-/// Global context registry.
+/// A work item for the worker thread pool.
+struct WorkItem {
+    job_id: u64,
+    ctx_id: u32,
+}
+
+/// Global context registry (using parking_lot::Mutex for performance).
 static CONTEXTS: Lazy<Mutex<HashMap<u32, Context>>> = Lazy::new(|| Mutex::new(HashMap::new()));
 
 /// Global job registry.
@@ -66,22 +76,79 @@ static NEXT_CTX_ID: AtomicU32 = AtomicU32::new(1);
 /// Atomic counter for generating unique job IDs.
 static NEXT_JOB_ID: AtomicU64 = AtomicU64::new(1);
 
+/// Flag indicating if worker pool is initialized.
+static WORKERS_INITIALIZED: AtomicBool = AtomicBool::new(false);
+
+/// Channel for submitting work to workers.
+static WORK_TX: Lazy<Mutex<Option<Sender<WorkItem>>>> = Lazy::new(|| Mutex::new(None));
+
+/// Initialize the worker pool with the given number of threads.
+pub fn init_worker_pool(num_workers: usize) {
+    if WORKERS_INITIALIZED.swap(true, Ordering::SeqCst) {
+        return; // Already initialized
+    }
+
+    let (tx, rx): (Sender<WorkItem>, Receiver<WorkItem>) = channel::unbounded();
+    *WORK_TX.lock() = Some(tx);
+
+    for _ in 0..num_workers {
+        let rx = rx.clone();
+        thread::spawn(move || {
+            worker_loop(rx);
+        });
+    }
+}
+
+/// Worker loop that processes jobs from the channel.
+fn worker_loop(rx: Receiver<WorkItem>) {
+    while let Ok(work) = rx.recv() {
+        // Mark job as running
+        {
+            let mut jobs = JOBS.lock();
+            if let Some(job) = jobs.get_mut(&work.job_id) {
+                job.status = JobStatus::Running;
+            }
+        }
+
+        // Get solver and execute
+        let result = {
+            let mut contexts = CONTEXTS.lock();
+            if let Some(ctx) = contexts.get_mut(&work.ctx_id) {
+                ctx.solver.solve().ok()
+            } else {
+                None
+            }
+        };
+
+        // Update job status
+        {
+            let mut jobs = JOBS.lock();
+            if let Some(job) = jobs.get_mut(&work.job_id) {
+                job.status = match result {
+                    Some(res) => JobStatus::Completed(res),
+                    None => JobStatus::Completed(SatResult::Unknown("Context not found".into())),
+                };
+            }
+        }
+    }
+}
+
 /// Creates a new solver context and returns its ID.
 pub fn create_context() -> u32 {
     let id = NEXT_CTX_ID.fetch_add(1, Ordering::SeqCst);
     let ctx = Context::new();
-    CONTEXTS.lock().unwrap().insert(id, ctx);
+    CONTEXTS.lock().insert(id, ctx);
     id
 }
 
 /// Destroys a solver context by its ID.
 pub fn destroy_context(ctx_id: u32) -> bool {
-    CONTEXTS.lock().unwrap().remove(&ctx_id).is_some()
+    CONTEXTS.lock().remove(&ctx_id).is_some()
 }
 
 /// Executes a closure with a reference to a context.
 pub fn with_context<R, F: FnOnce(&mut Context) -> R>(ctx_id: u32, f: F) -> Option<R> {
-    let mut guard = CONTEXTS.lock().unwrap();
+    let mut guard = CONTEXTS.lock();
     guard.get_mut(&ctx_id).map(f)
 }
 
@@ -143,11 +210,51 @@ pub fn solve(ctx_id: u32) -> Option<SatResult> {
 
 /// Submits a solve job asynchronously (non-blocking).
 ///
+/// If worker pool is initialized, the job runs on a worker thread.
+/// Otherwise, falls back to synchronous execution.
+///
 /// # Returns
 /// A job ID for tracking, or 0 if context not found.
 pub fn submit_solve(ctx_id: u32) -> u64 {
-    // For now, we execute synchronously but return a job ID for API compatibility.
-    // TODO: Implement actual async execution with worker threads.
+    // Check if context exists
+    if !CONTEXTS.lock().contains_key(&ctx_id) {
+        return 0;
+    }
+
+    let job_id = NEXT_JOB_ID.fetch_add(1, Ordering::SeqCst);
+
+    // Try to use worker pool
+    let tx = WORK_TX.lock();
+    if let Some(sender) = tx.as_ref() {
+        // Create pending job
+        let job = Job {
+            ctx_id,
+            status: JobStatus::Pending,
+        };
+        JOBS.lock().insert(job_id, job);
+
+        // Send to worker
+        let _ = sender.send(WorkItem { job_id, ctx_id });
+        return job_id;
+    }
+    drop(tx);
+
+    // Fallback: synchronous execution
+    let result = solve(ctx_id);
+    let job = Job {
+        ctx_id,
+        status: match result {
+            Some(res) => JobStatus::Completed(res),
+            None => JobStatus::Completed(SatResult::Unknown("Solve failed".into())),
+        },
+    };
+    JOBS.lock().insert(job_id, job);
+    job_id
+}
+
+/// Submits a solve job synchronously (blocking).
+/// Returns the job ID immediately after completion.
+pub fn submit_solve_sync(ctx_id: u32) -> u64 {
     let result = solve(ctx_id);
     
     match result {
@@ -157,7 +264,7 @@ pub fn submit_solve(ctx_id: u32) -> u64 {
                 ctx_id,
                 status: JobStatus::Completed(sat_result),
             };
-            JOBS.lock().unwrap().insert(job_id, job);
+            JOBS.lock().insert(job_id, job);
             job_id
         }
         None => 0,
@@ -167,7 +274,6 @@ pub fn submit_solve(ctx_id: u32) -> u64 {
 /// Polls the status of a job.
 pub fn poll_job(job_id: u64) -> JobStatus {
     JOBS.lock()
-        .unwrap()
         .get(&job_id)
         .map(|j| j.status.clone())
         .unwrap_or(JobStatus::NotFound)
@@ -178,7 +284,7 @@ pub fn poll_job(job_id: u64) -> JobStatus {
 /// # Returns
 /// Vector of (job_id, result) pairs for completed jobs.
 pub fn fetch_finished_jobs(max_count: usize) -> Vec<(u64, SatResult)> {
-    let mut guard = JOBS.lock().unwrap();
+    let mut guard = JOBS.lock();
     let mut results = Vec::new();
     let mut to_remove = Vec::new();
     
@@ -271,7 +377,7 @@ pub fn new_bool_var(ctx_id: u32) -> Option<i64> {
 
 /// Forks a context into multiple clones.
 pub fn fork_context(src_ctx_id: u32, num_clones: u32) -> Vec<u32> {
-    let mut guard = CONTEXTS.lock().unwrap();
+    let mut guard = CONTEXTS.lock();
     
     let src = match guard.get(&src_ctx_id) {
         Some(ctx) => ctx,
@@ -297,12 +403,12 @@ pub fn fork_context(src_ctx_id: u32, num_clones: u32) -> Vec<u32> {
 
 /// Gets the number of currently active contexts.
 pub fn context_count() -> usize {
-    CONTEXTS.lock().unwrap().len()
+    CONTEXTS.lock().len()
 }
 
 /// Gets the number of pending/completed jobs.
 pub fn job_count() -> usize {
-    JOBS.lock().unwrap().len()
+    JOBS.lock().len()
 }
 
 #[cfg(test)]

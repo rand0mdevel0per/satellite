@@ -19,6 +19,8 @@ thiserror = { workspace = true }
 tracing = { workspace = true }
 libloading = { workspace = true }
 once_cell = { workspace = true }
+crossbeam = { workspace = true }
+parking_lot = "0.12"
 
 [dev-dependencies]
 proptest = { workspace = true }

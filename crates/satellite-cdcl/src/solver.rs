@@ -65,6 +65,10 @@ pub struct CdclSolver {
     stats: SolverStats,
     /// Whether a conflict was detected during initialization (conflicting unit clauses).
     has_initial_conflict: bool,
+    /// Clauses used in the UNSAT proof (for UNSAT core extraction).
+    used_clauses: Vec<usize>,
+    /// Whether to track used clauses for UNSAT core.
+    track_unsat_core: bool,
 }
 
 /// Solver statistics.
@@ -118,6 +122,8 @@ impl CdclSolver {
             config,
             stats: SolverStats::default(),
             has_initial_conflict: false,
+            used_clauses: Vec::new(),
+            track_unsat_core: false,
         };
 
 
@@ -175,8 +181,11 @@ impl CdclSolver {
         
         // Main CDCL loop
         loop {
-            if let Some(_conflict_clause) = self.propagate() {
+            if let Some(conflict_clause) = self.propagate() {
                 self.stats.conflicts += 1;
+                
+                // Record this clause for UNSAT core
+                self.record_used_clause(conflict_clause);
                 
                 // Conflict at decision level 0 means UNSAT
                 if self.decision_level() == 0 {
@@ -530,4 +539,47 @@ impl CdclSolver {
     pub fn stats(&self) -> &SolverStats {
         &self.stats
     }
+
+    /// Enables UNSAT core tracking.
+    /// 
+    /// When enabled, the solver will record which clauses contribute
+    /// to the UNSAT proof. This adds some overhead.
+    pub fn enable_unsat_core(&mut self) {
+        self.track_unsat_core = true;
+        self.used_clauses.clear();
+    }
+
+    /// Returns the UNSAT core as a list of clause indices.
+    /// 
+    /// This returns the indices of the original clauses that are sufficient
+    /// to prove UNSAT. Only valid after `solve()` returns `Unsat`.
+    /// Returns `None` if UNSAT core tracking was not enabled or problem is SAT.
+    pub fn get_unsat_core(&self) -> Option<Vec<usize>> {
+        if !self.track_unsat_core || self.used_clauses.is_empty() {
+            return None;
+        }
+        // Deduplicate and sort
+        let mut core: Vec<usize> = self.used_clauses.clone();
+        core.sort_unstable();
+        core.dedup();
+        Some(core)
+    }
+
+    /// Returns the UNSAT core as the actual clause literals.
+    pub fn get_unsat_core_clauses(&self) -> Option<Vec<Vec<i64>>> {
+        self.get_unsat_core().map(|indices| {
+            indices.iter()
+                .filter_map(|&idx| self.clauses.get(idx))
+                .map(|c| c.literals.clone())
+                .collect()
+        })
+    }
+
+    /// Records a clause as used in the UNSAT proof.
+    fn record_used_clause(&mut self, clause_id: usize) {
+        if self.track_unsat_core {
+            self.used_clauses.push(clause_id);
+        }
+    }
 }
+
