@@ -3934,6 +3934,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "satellite-gpu"
+version = "0.1.0"
+dependencies = [
+ "cc",
+ "satellite-base",
+ "thiserror 2.0.17",
+]
+
+[[package]]
 name = "satellite-ide"
 version = "0.1.0"
 dependencies = [
