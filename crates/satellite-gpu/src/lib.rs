@@ -28,9 +28,11 @@
 mod ffi;
 mod worker;
 mod status;
+mod abi_op;
 
 pub use worker::GpuWorker;
 pub use status::{GpuStatus, GpuMemoryInfo, BcpResult};
+pub use abi_op::{CompiledOp, TruthTable, AbiOpRegistry, GpuAbiOpExecutor};
 
 /// GPU error types
 #[derive(Debug, thiserror::Error)]

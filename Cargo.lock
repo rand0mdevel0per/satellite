@@ -3938,6 +3938,7 @@ name = "satellite-gpu"
 version = "0.1.0"
 dependencies = [
  "cc",
+ "criterion",
  "satellite-base",
  "thiserror 2.0.17",
 ]

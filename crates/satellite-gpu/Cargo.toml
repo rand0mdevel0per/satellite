@@ -10,6 +10,9 @@ license = "MIT"
 satellite-base = { path = "../satellite-base" }
 thiserror = { workspace = true }
 
+[dev-dependencies]
+criterion = { workspace = true }
+
 [build-dependencies]
 cc = "1.0"
 
@@ -17,3 +20,7 @@ cc = "1.0"
 default = []
 cuda = []
 hip = []
+
+[[bench]]
+name = "bcp_bench"
+harness = false
