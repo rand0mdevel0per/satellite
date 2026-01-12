@@ -1,0 +1,13 @@
+.sidebar {
+    background: #252526;
+    border-right: 1px solid #1e1e1e;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-right {
+    border-right: none;
+    border-left: 1px solid #1e1e1e;
+}

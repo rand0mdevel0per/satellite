@@ -1,0 +1,75 @@
+.toolbar {
+    height: 40px;
+    background: #323233;
+    border-bottom: 1px solid #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    -webkit-app-region: drag;
+}
+
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    -webkit-app-region: no-drag;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 20px;
+    background: #555;
+    margin: 0 8px;
+}
+
+.toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.toolbar-btn.run {
+    background: #2ea043;
+    color: #fff;
+}
+
+.toolbar-btn.run:hover {
+    background: #3fb950;
+}
+
+.toolbar-btn.stop {
+    background: #da3633;
+    color: #fff;
+}
+
+.toolbar-btn.stop:hover {
+    background: #f85149;
+}
+
+.toolbar-title {
+    color: #888;
+    font-size: 13px;
+    font-weight: 500;
+}

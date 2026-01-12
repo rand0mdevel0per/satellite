@@ -1,0 +1,70 @@
+.status-bar {
+    height: 24px;
+    background: #007acc;
+    color: #fff;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px;
+    user-select: none;
+}
+
+.status-bar-left,
+.status-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    cursor: default;
+    white-space: nowrap;
+}
+
+.status-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.status-item.branch {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.status-item.message {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.gpu-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gpu-ready {
+    color: #4caf50;
+}
+
+.gpu-busy {
+    color: #ff9800;
+    animation: pulse 1s infinite;
+}
+
+.gpu-unavailable {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
