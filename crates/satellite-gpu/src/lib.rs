@@ -12,7 +12,7 @@
 //!
 //! ## Example
 //!
-//! ```ignore
+//! ```no_run
 //! use satellite_gpu::{GpuWorker, GpuStatus};
 //!
 //! let mut worker = GpuWorker::new()?;

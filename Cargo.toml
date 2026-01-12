@@ -29,15 +29,15 @@ rust-version = "1.85"
 
 [workspace.dependencies]
 # Internal crates
-satellite-base = { path = "crates/satellite-base" }
-satellite-format = { path = "crates/satellite-format" }
-satellite-protocol = { path = "crates/satellite-protocol" }
-satellite-lockfree = { path = "crates/satellite-lockfree" }
-satellite-cdcl = { path = "crates/satellite-cdcl" }
-satellite-branch = { path = "crates/satellite-branch" }
-satellite-jit = { path = "crates/satellite-jit" }
-satellite-worker = { path = "crates/satellite-worker" }
-satellite-kit = { path = "crates/satellite-kit" }
+satellite-base = { path = "crates/satellite-base", version = "0.1.0" }
+satellite-format = { path = "crates/satellite-format", version = "0.1.0" }
+satellite-protocol = { path = "crates/satellite-protocol", version = "0.1.0" }
+satellite-lockfree = { path = "crates/satellite-lockfree", version = "0.1.0" }
+satellite-cdcl = { path = "crates/satellite-cdcl", version = "0.1.0" }
+satellite-branch = { path = "crates/satellite-branch", version = "0.1.0" }
+satellite-jit = { path = "crates/satellite-jit", version = "0.1.0" }
+satellite-worker = { path = "crates/satellite-worker", version = "0.1.0" }
+satellite-kit = { path = "crates/satellite-kit", version = "0.1.0" }
 
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
