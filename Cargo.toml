@@ -13,7 +13,6 @@ members = [
     "crates/satellite-kit",
     "crates/satellite-cli",
     "crates/satellite-daemon",
-    "crates/satellite-ide",
     "crates/satellite-gpu",
     "crates/satellite-python-frontend",
     "crates/satellite-rust-frontend",

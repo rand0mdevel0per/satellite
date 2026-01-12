@@ -1,0 +1,50 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "DIMACS CNF",
+    "scopeName": "source.dimacs",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#problem"
+        },
+        {
+            "include": "#literals"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.dimacs",
+                    "match": "^c\\s.*$"
+                }
+            ]
+        },
+        "problem": {
+            "patterns": [
+                {
+                    "name": "keyword.control.dimacs",
+                    "match": "^p\\s+cnf\\s+\\d+\\s+\\d+"
+                }
+            ]
+        },
+        "literals": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.positive.dimacs",
+                    "match": "\\b[1-9][0-9]*\\b"
+                },
+                {
+                    "name": "constant.numeric.negative.dimacs",
+                    "match": "-[1-9][0-9]*\\b"
+                },
+                {
+                    "name": "punctuation.terminator.dimacs",
+                    "match": "\\b0\\b"
+                }
+            ]
+        }
+    }
+}

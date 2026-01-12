@@ -1,0 +1,123 @@
+{
+    "name": "satellite-vscode",
+    "displayName": "Satellite SAT Solver",
+    "description": "Language support and solver integration for Satellite SAT solver",
+    "version": "0.1.0",
+    "publisher": "satellite",
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Linters",
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:satellite",
+        "onLanguage:dimacs"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "satellite",
+                "aliases": [
+                    "Satellite",
+                    "satellite"
+                ],
+                "extensions": [
+                    ".sat"
+                ],
+                "configuration": "./language-configuration.json"
+            },
+            {
+                "id": "dimacs",
+                "aliases": [
+                    "DIMACS",
+                    "dimacs",
+                    "CNF"
+                ],
+                "extensions": [
+                    ".cnf",
+                    ".dimacs"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "satellite",
+                "scopeName": "source.satellite",
+                "path": "./syntaxes/satellite.tmLanguage.json"
+            },
+            {
+                "language": "dimacs",
+                "scopeName": "source.dimacs",
+                "path": "./syntaxes/dimacs.tmLanguage.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "satellite.solve",
+                "title": "Satellite: Solve Current File",
+                "icon": "$(play)"
+            },
+            {
+                "command": "satellite.analyze",
+                "title": "Satellite: Analyze Constraints"
+            },
+            {
+                "command": "satellite.showOutput",
+                "title": "Satellite: Show Output"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "satellite.solve",
+                "key": "ctrl+shift+s",
+                "when": "editorLangId == satellite || editorLangId == dimacs"
+            }
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "command": "satellite.solve",
+                    "when": "editorLangId == satellite || editorLangId == dimacs",
+                    "group": "navigation"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Satellite",
+            "properties": {
+                "satellite.solverPath": {
+                    "type": "string",
+                    "default": "satellite",
+                    "description": "Path to the Satellite CLI executable"
+                },
+                "satellite.timeout": {
+                    "type": "number",
+                    "default": 60,
+                    "description": "Solver timeout in seconds"
+                },
+                "satellite.useGpu": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable GPU acceleration if available"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "lint": "eslint src --ext ts"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.85.0",
+        "@types/node": "^20.0.0",
+        "typescript": "^5.3.0",
+        "@vscode/vsce": "^2.22.0"
+    }
+}
