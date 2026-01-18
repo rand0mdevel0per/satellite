@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <cstddef>
 
-namespace satellite; {
+namespace satellite {
 namespace gpu {
 
 /// Literal type (positive = true, negative = negated)

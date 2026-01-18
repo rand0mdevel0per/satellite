@@ -7,7 +7,7 @@ authors = ["Satellite Team"]
 license = "MIT"
 
 [dependencies]
-satellite-base = { path = "../satellite-base" }
+satellite-base = { workspace = true }
 thiserror = { workspace = true }
 
 [dev-dependencies]
